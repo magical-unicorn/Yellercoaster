@@ -1,0 +1,430 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B52CFF2B1A72E006007C9E3F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52CFF2A1A72E006007C9E3F /* AppDelegate.swift */; };
+		B52CFF2D1A72E006007C9E3F /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B52CFF2C1A72E006007C9E3F /* GameScene.sks */; };
+		B52CFF2F1A72E006007C9E3F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52CFF2E1A72E006007C9E3F /* GameScene.swift */; };
+		B52CFF311A72E006007C9E3F /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52CFF301A72E006007C9E3F /* GameViewController.swift */; };
+		B52CFF341A72E006007C9E3F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B52CFF321A72E006007C9E3F /* Main.storyboard */; };
+		B52CFF361A72E006007C9E3F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B52CFF351A72E006007C9E3F /* Images.xcassets */; };
+		B52CFF391A72E006007C9E3F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B52CFF371A72E006007C9E3F /* LaunchScreen.xib */; };
+		B52CFF451A72E006007C9E3F /* YellercoasterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52CFF441A72E006007C9E3F /* YellercoasterTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B52CFF3F1A72E006007C9E3F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B52CFF1D1A72E006007C9E3F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B52CFF241A72E006007C9E3F;
+			remoteInfo = Yellercoaster;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B52CFF251A72E006007C9E3F /* Yellercoaster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yellercoaster.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B52CFF291A72E006007C9E3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B52CFF2A1A72E006007C9E3F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B52CFF2C1A72E006007C9E3F /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		B52CFF2E1A72E006007C9E3F /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		B52CFF301A72E006007C9E3F /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		B52CFF331A72E006007C9E3F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B52CFF351A72E006007C9E3F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		B52CFF381A72E006007C9E3F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		B52CFF3E1A72E006007C9E3F /* YellercoasterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YellercoasterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B52CFF431A72E006007C9E3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B52CFF441A72E006007C9E3F /* YellercoasterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YellercoasterTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B52CFF221A72E006007C9E3F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B52CFF3B1A72E006007C9E3F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B52CFF1C1A72E006007C9E3F = {
+			isa = PBXGroup;
+			children = (
+				B52CFF271A72E006007C9E3F /* Yellercoaster */,
+				B52CFF411A72E006007C9E3F /* YellercoasterTests */,
+				B52CFF261A72E006007C9E3F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B52CFF261A72E006007C9E3F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B52CFF251A72E006007C9E3F /* Yellercoaster.app */,
+				B52CFF3E1A72E006007C9E3F /* YellercoasterTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B52CFF271A72E006007C9E3F /* Yellercoaster */ = {
+			isa = PBXGroup;
+			children = (
+				B52CFF2A1A72E006007C9E3F /* AppDelegate.swift */,
+				B52CFF2C1A72E006007C9E3F /* GameScene.sks */,
+				B52CFF2E1A72E006007C9E3F /* GameScene.swift */,
+				B52CFF301A72E006007C9E3F /* GameViewController.swift */,
+				B52CFF321A72E006007C9E3F /* Main.storyboard */,
+				B52CFF351A72E006007C9E3F /* Images.xcassets */,
+				B52CFF371A72E006007C9E3F /* LaunchScreen.xib */,
+				B52CFF281A72E006007C9E3F /* Supporting Files */,
+			);
+			path = Yellercoaster;
+			sourceTree = "<group>";
+		};
+		B52CFF281A72E006007C9E3F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B52CFF291A72E006007C9E3F /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B52CFF411A72E006007C9E3F /* YellercoasterTests */ = {
+			isa = PBXGroup;
+			children = (
+				B52CFF441A72E006007C9E3F /* YellercoasterTests.swift */,
+				B52CFF421A72E006007C9E3F /* Supporting Files */,
+			);
+			path = YellercoasterTests;
+			sourceTree = "<group>";
+		};
+		B52CFF421A72E006007C9E3F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B52CFF431A72E006007C9E3F /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B52CFF241A72E006007C9E3F /* Yellercoaster */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B52CFF481A72E006007C9E3F /* Build configuration list for PBXNativeTarget "Yellercoaster" */;
+			buildPhases = (
+				B52CFF211A72E006007C9E3F /* Sources */,
+				B52CFF221A72E006007C9E3F /* Frameworks */,
+				B52CFF231A72E006007C9E3F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Yellercoaster;
+			productName = Yellercoaster;
+			productReference = B52CFF251A72E006007C9E3F /* Yellercoaster.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B52CFF3D1A72E006007C9E3F /* YellercoasterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B52CFF4B1A72E006007C9E3F /* Build configuration list for PBXNativeTarget "YellercoasterTests" */;
+			buildPhases = (
+				B52CFF3A1A72E006007C9E3F /* Sources */,
+				B52CFF3B1A72E006007C9E3F /* Frameworks */,
+				B52CFF3C1A72E006007C9E3F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B52CFF401A72E006007C9E3F /* PBXTargetDependency */,
+			);
+			name = YellercoasterTests;
+			productName = YellercoasterTests;
+			productReference = B52CFF3E1A72E006007C9E3F /* YellercoasterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B52CFF1D1A72E006007C9E3F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = magicalunicorns;
+				TargetAttributes = {
+					B52CFF241A72E006007C9E3F = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					B52CFF3D1A72E006007C9E3F = {
+						CreatedOnToolsVersion = 6.1;
+						TestTargetID = B52CFF241A72E006007C9E3F;
+					};
+				};
+			};
+			buildConfigurationList = B52CFF201A72E006007C9E3F /* Build configuration list for PBXProject "Yellercoaster" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B52CFF1C1A72E006007C9E3F;
+			productRefGroup = B52CFF261A72E006007C9E3F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B52CFF241A72E006007C9E3F /* Yellercoaster */,
+				B52CFF3D1A72E006007C9E3F /* YellercoasterTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B52CFF231A72E006007C9E3F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B52CFF391A72E006007C9E3F /* LaunchScreen.xib in Resources */,
+				B52CFF361A72E006007C9E3F /* Images.xcassets in Resources */,
+				B52CFF2D1A72E006007C9E3F /* GameScene.sks in Resources */,
+				B52CFF341A72E006007C9E3F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B52CFF3C1A72E006007C9E3F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B52CFF211A72E006007C9E3F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B52CFF2F1A72E006007C9E3F /* GameScene.swift in Sources */,
+				B52CFF311A72E006007C9E3F /* GameViewController.swift in Sources */,
+				B52CFF2B1A72E006007C9E3F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B52CFF3A1A72E006007C9E3F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B52CFF451A72E006007C9E3F /* YellercoasterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B52CFF401A72E006007C9E3F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B52CFF241A72E006007C9E3F /* Yellercoaster */;
+			targetProxy = B52CFF3F1A72E006007C9E3F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B52CFF321A72E006007C9E3F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B52CFF331A72E006007C9E3F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		B52CFF371A72E006007C9E3F /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B52CFF381A72E006007C9E3F /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B52CFF461A72E006007C9E3F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B52CFF471A72E006007C9E3F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B52CFF491A72E006007C9E3F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Yellercoaster/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		B52CFF4A1A72E006007C9E3F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Yellercoaster/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		B52CFF4C1A72E006007C9E3F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = YellercoasterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yellercoaster.app/Yellercoaster";
+			};
+			name = Debug;
+		};
+		B52CFF4D1A72E006007C9E3F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = YellercoasterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yellercoaster.app/Yellercoaster";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B52CFF201A72E006007C9E3F /* Build configuration list for PBXProject "Yellercoaster" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B52CFF461A72E006007C9E3F /* Debug */,
+				B52CFF471A72E006007C9E3F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B52CFF481A72E006007C9E3F /* Build configuration list for PBXNativeTarget "Yellercoaster" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B52CFF491A72E006007C9E3F /* Debug */,
+				B52CFF4A1A72E006007C9E3F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		B52CFF4B1A72E006007C9E3F /* Build configuration list for PBXNativeTarget "YellercoasterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B52CFF4C1A72E006007C9E3F /* Debug */,
+				B52CFF4D1A72E006007C9E3F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B52CFF1D1A72E006007C9E3F /* Project object */;
+}
