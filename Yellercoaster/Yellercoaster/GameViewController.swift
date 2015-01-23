@@ -57,8 +57,6 @@ class GameViewController: UIViewController, AVAudioRecorderDelegate {
             rec.meteringEnabled = true
             rec.prepareToRecord() // creates/overwrites the file at soundFileURL
             rec.record()
-            // levelTimer = [NSTimer scheduledTimerWithTimeInterval: 0.03 target: self selector: @selector(levelTimerCallback:) userInfo: nil repeats: YES];
-
             let levelTimer = NSTimer.scheduledTimerWithTimeInterval(0.03, target: self, selector: "level", userInfo: nil, repeats: true)
         }
 
@@ -80,10 +78,10 @@ class GameViewController: UIViewController, AVAudioRecorderDelegate {
     
     func level() {
         self.recorder?.updateMeters()
-        let ALPHA = 0.05
-        let peakPowerForChannel = pow(10, ALPHA * Double(self.recorder!.peakPowerForChannel(0)))
+        let ALPHA = 0.11
+        let peakPowerForChannel = pow(10, ALPHA * Double(self.recorder!.averagePowerForChannel(0)))
         self.lowPassResults = ALPHA * peakPowerForChannel + (1.0 - ALPHA) * self.lowPassResults
-        NSLog("Average input: %f Peak input: %f Low pass results: %f", self.recorder!.averagePowerForChannel(0), self.recorder!.peakPowerForChannel(0), lowPassResults)
+        // NSLog("Average input: %f Peak input: %f Low pass results: %f", self.recorder!.averagePowerForChannel(0), self.recorder!.peakPowerForChannel(0), lowPassResults)
         
     }
 
