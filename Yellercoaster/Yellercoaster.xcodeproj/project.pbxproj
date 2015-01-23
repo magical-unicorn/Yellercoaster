@@ -15,6 +15,7 @@
 		B52CFF361A72E006007C9E3F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B52CFF351A72E006007C9E3F /* Images.xcassets */; };
 		B52CFF391A72E006007C9E3F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B52CFF371A72E006007C9E3F /* LaunchScreen.xib */; };
 		B52CFF451A72E006007C9E3F /* YellercoasterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52CFF441A72E006007C9E3F /* YellercoasterTests.swift */; };
+		B52CFF4F1A72E386007C9E3F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B52CFF4E1A72E386007C9E3F /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		B52CFF3E1A72E006007C9E3F /* YellercoasterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YellercoasterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B52CFF431A72E006007C9E3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B52CFF441A72E006007C9E3F /* YellercoasterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YellercoasterTests.swift; sourceTree = "<group>"; };
+		B52CFF4E1A72E386007C9E3F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B52CFF4F1A72E386007C9E3F /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +66,7 @@
 		B52CFF1C1A72E006007C9E3F = {
 			isa = PBXGroup;
 			children = (
+				B52CFF4E1A72E386007C9E3F /* AVFoundation.framework */,
 				B52CFF271A72E006007C9E3F /* Yellercoaster */,
 				B52CFF411A72E006007C9E3F /* YellercoasterTests */,
 				B52CFF261A72E006007C9E3F /* Products */,

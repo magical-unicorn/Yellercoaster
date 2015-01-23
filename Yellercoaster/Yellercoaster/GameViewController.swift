@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import AVFoundation
 
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
@@ -25,10 +26,41 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, AVAudioRecorderDelegate {
 
+    var recorder: AVAudioRecorder?
+    var lowPassResults:Double = 0.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let url = NSURL(fileURLWithPath: "/dev/null")
+        let settings = [AVSampleRateKey: 44100.0,
+                        AVFormatIDKey: kAudioFormatAppleLossless,
+                        AVNumberOfChannelsKey: 1,
+                        AVEncoderAudioQualityKey: AVAudioQuality.Max.rawValue]
+        
+        let audioSession = AVAudioSession.sharedInstance()
+        var err: NSError?
+        audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, error: nil)
+        if let e1 = err {
+            println(e1.localizedDescription)
+        }
+        
+        var error: NSError?
+        self.recorder = AVAudioRecorder(URL: url, settings: settings, error: &error)
+        if let e = error {
+            println(e.localizedDescription)
+        } else {
+            let rec = self.recorder!
+            rec.delegate = self
+            rec.meteringEnabled = true
+            rec.prepareToRecord() // creates/overwrites the file at soundFileURL
+            rec.record()
+            // levelTimer = [NSTimer scheduledTimerWithTimeInterval: 0.03 target: self selector: @selector(levelTimerCallback:) userInfo: nil repeats: YES];
+
+            let levelTimer = NSTimer.scheduledTimerWithTimeInterval(0.03, target: self, selector: "level", userInfo: nil, repeats: true)
+        }
 
         if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
             // Configure the view.
@@ -44,6 +76,15 @@ class GameViewController: UIViewController {
             
             skView.presentScene(scene)
         }
+    }
+    
+    func level() {
+        self.recorder?.updateMeters()
+        let ALPHA = 0.05
+        let peakPowerForChannel = pow(10, ALPHA * Double(self.recorder!.peakPowerForChannel(0)))
+        self.lowPassResults = ALPHA * peakPowerForChannel + (1.0 - ALPHA) * self.lowPassResults
+        NSLog("Average input: %f Peak input: %f Low pass results: %f", self.recorder!.averagePowerForChannel(0), self.recorder!.peakPowerForChannel(0), lowPassResults)
+        
     }
 
     override func shouldAutorotate() -> Bool {
