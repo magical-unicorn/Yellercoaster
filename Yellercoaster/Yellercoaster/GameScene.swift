@@ -13,6 +13,7 @@ class GameScene: SKScene {
     var avancement = 0.0
     var groundBuilt = 0.0
 	var maxVelocity : CGFloat = 750.0
+    var previousVelocity : CGFloat = 0.0
     var groundItems = [SKNode]()
 	let patternWidth:CGFloat = 400.0
 	
@@ -103,7 +104,7 @@ class GameScene: SKScene {
         // wagon.physicsBody?.velocity.dx = 300.0 - wPos.x
         // wagon.physicsBody?.applyImpulse(CGVector(dx: 300.0 - Double(wPos.x), dy: 0.0))
         
-        let xDiff = CGFloat(20.0*level)
+        let xDiff = CGFloat(32.0*level)
 		// println("XDiff \(xDiff)")
         //wagon.physicsBody?.applyForce(CGVector(dx: 300.0 * xDiff, dy: 0.0))
 		let tangent = getTangentVector(wagon.position.x, factor: xDiff);
@@ -124,7 +125,7 @@ class GameScene: SKScene {
 			} else {
 				sign = -1.0;
 			}
-			var ortho = CGVector(dx: sign * nimpCoef * mass! * squaredVelocity, dy: -(tangent.dx * mass! * squaredVelocity * nimpCoef / tangent.dy))
+			var ortho = CGVector(dx: sign * nimpCoef * mass! * squaredVelocity, dy: -(tangent.dx * sign * mass! * squaredVelocity * nimpCoef / tangent.dy))
 			// println("ortho \(ortho.dx) \(ortho.dy)");
 			var orthoNorm = sqrt((ortho.dx * ortho.dx) + (ortho.dy * ortho.dy))
 			if (orthoNorm > 0.000001) {
@@ -140,11 +141,12 @@ class GameScene: SKScene {
 			var scalar = tangent.dx * ortho.dx + tangent.dy * ortho.dy
 			// println("scalar\(scalar)")
 			
+            //wagon.physicsBody?.applyForce(CGVector(dx: ortho.dx * 2.5, dy: ortho.dy * 1.5))
 			
-			//var force = CGVector(dx: tangent.dx + ortho.dx, dy: tangent.dy + ortho.dy)
+			var force = CGVector(dx: tangent.dx + 1.7 * ortho.dx, dy: tangent.dy + 0.8 * ortho.dy)
 			//println("force \(force.dx) \(force.dy)")
 
-			wagon.physicsBody?.applyForce(tangent)
+			wagon.physicsBody?.applyForce(force)
 		} else {
 			println("maxvelocity")
 		}
@@ -154,6 +156,7 @@ class GameScene: SKScene {
         let jauge = self.childNodeWithName("jauge") as SKSpriteNode
         let jaugeBG = self.childNodeWithName("jaugeBG") as SKSpriteNode
         jauge.size.height = jaugeBG.size.height * CGFloat(level)
+        
     }
     
     override func didFinishUpdate() {
@@ -167,6 +170,17 @@ class GameScene: SKScene {
         } else {
             // wagon!.zRotation = CGFloat(0.0)
         }
+
+        // tentative de zoom en fonction de la vélocité
+        let prevVelo = previousVelocity
+        previousVelocity = velocity
+        let filteredVelocity = 0.01 * velocity + 0.99 * prevVelo
+        var scale: CGFloat = 0.9 + filteredVelocity * 0.0000020
+        if (scale > 2.15) {
+            scale = 2.15
+        }
+        world?.xScale = scale
+        world?.yScale = scale
         self.centerOnNode(self.childNodeWithName("world")!.childNodeWithName("wagon"))
     }
     
@@ -174,7 +188,7 @@ class GameScene: SKScene {
         if let cam = node {
             let camPosInScene = cam.scene?.convertPoint(cam.position, fromNode: cam.parent!)
             if let camPos = camPosInScene {
-                cam.parent?.position = CGPoint(x: cam.parent!.position.x - camPos.x + 230.0, y: cam.parent!.position.y - camPos.y + 200.0)
+                cam.parent?.position = CGPoint(x: cam.parent!.position.x - camPos.x + 340.0, y: cam.parent!.position.y - camPos.y + 320.0)
             }
         }
     }
@@ -207,7 +221,7 @@ class GameScene: SKScene {
 		}
 
 		// println("nxtNode \(nxtNode!.position.x)")
-		let shape = nxtNode as SKShapeNode;
+		let shape = prevNode as SKShapeNode;
 		
 		var mespoints = BezierHelper.getPointsFromPath(shape.path);
 		mespoints.addObject([0.0,0.0])
@@ -235,8 +249,13 @@ class GameScene: SKScene {
             return CGVector(dx: 0.0, dy: 0.0)
         }
 		
+        var dx = factor * coef * (rightPoint!.x - leftPoint!.x);
+        if (dx < 0) {
+            dx *= -1
+        }
+        
 		// pour la shape, on récupère
-		return CGVector(dx: factor * coef * (rightPoint!.x - leftPoint!.x), dy: factor * coef * (rightPoint!.y - leftPoint!.y))
+		return CGVector(dx: dx, dy: factor * coef * (rightPoint!.y - leftPoint!.y))
 	}
     
     func angleOfVector(vector: CGVector) -> CGFloat {
