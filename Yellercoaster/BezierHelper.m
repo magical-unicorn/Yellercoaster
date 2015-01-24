@@ -15,7 +15,7 @@
 +(NSMutableArray *) getPointsFromPath: (CGPathRef) p {
 	UIBezierPath *path = [UIBezierPath.class bezierPathWithCGPath:p];
 	//    [path stroke];
-	CGFloat interval = 10.0;
+	CGFloat interval = 4.0;
 	NSMutableArray * result = [NSMutableArray array];
 	[path Rob_forEachPointAtInterval:interval perform:^(CGPoint point, CGVector vector) {
 		[result addObject:@[[NSNumber numberWithDouble:point.x],[NSNumber numberWithDouble:point.y]]];

@@ -10,9 +10,9 @@ import SpriteKit
 
 
 class GameScene: SKScene {
-	var avancement:CGFloat = 0.0
-	var groundBuilt:CGFloat = 0.0
-	var maxVelocity : CGFloat = 200.0
+    var avancement = 0.0
+    var groundBuilt = 0.0
+	var maxVelocity : CGFloat = 750.0
     var groundItems = [SKNode]()
 	let patternWidth:CGFloat = 400.0
 	var currentPattern:CGFloat = -1.0;
@@ -80,7 +80,7 @@ class GameScene: SKScene {
                 ground.addChild(shape)
 				
                 self.groundItems.append(shape)
-                self.groundBuilt += patternWidth
+                self.groundBuilt += Double(patternWidth)
                 if (self.groundItems.count > 8) {
                     let del = self.groundItems.first
                     del?.removeFromParent()
@@ -143,8 +143,6 @@ class GameScene: SKScene {
 		var squaredVelocity: CGFloat = vv!.dx * vv!.dx + vv!.dy * vv!.dy;
 		
 		if (squaredVelocity < maxVelocity * maxVelocity) {
-		
-			/*
 			var sign: CGFloat = 1.0;
 			if (tangent.dy > 0) {
 				sign = 1.0;
@@ -152,33 +150,31 @@ class GameScene: SKScene {
 				sign = -1.0;
 			}
 			var ortho = CGVector(dx: sign * nimpCoef * mass! * squaredVelocity, dy: -(tangent.dx * mass! * squaredVelocity * nimpCoef / tangent.dy))
-			println("ortho \(ortho.dx) \(ortho.dy)");
+			// println("ortho \(ortho.dx) \(ortho.dy)");
 			var orthoNorm = sqrt((ortho.dx * ortho.dx) + (ortho.dy * ortho.dy))
 			if (orthoNorm > 0.000001) {
 				ortho.dx = ortho.dx / orthoNorm * tangentNorm;
 				ortho.dy = ortho.dy / orthoNorm * tangentNorm;
 			} else {
-				println("ortho null")
+				// println("ortho null")
 			}
 			
 			let fleche = self.childNodeWithName("fleche")!
-			fleche.zRotation = -CGFloat(atan2f(Float (ortho.dx), Float(ortho.dy)))
-			
-			println("ortho \(ortho.dx) \(ortho.dy) \(orthoNorm)");
+			fleche.zRotation = self.angleOfVector(tangent)
 			
 			var scalar = tangent.dx * ortho.dx + tangent.dy * ortho.dy
-			println("scalar\(scalar)")
+			// println("scalar\(scalar)")
 			
 			
 			//var force = CGVector(dx: tangent.dx + ortho.dx, dy: tangent.dy + ortho.dy)
 			//println("force \(force.dx) \(force.dy)")
-			*/
+
 			wagon.physicsBody?.applyForce(tangent)
 		} else {
 			//println("maxvelocity")
 		}
         // ground.position = CGPoint(x: ground.position.x - xDiff, y: ground.position.y)
-        self.avancement = wagon.position.x
+        self.avancement = Double(wagon.position.x)
         
         let jauge = self.childNodeWithName("jauge") as SKSpriteNode
         let jaugeBG = self.childNodeWithName("jaugeBG") as SKSpriteNode
@@ -186,6 +182,16 @@ class GameScene: SKScene {
     }
     
     override func didFinishUpdate() {
+        let world = self.childNodeWithName("world")
+        let wagon = world?.childNodeWithName("wagon")
+        let velocity = pow(wagon!.physicsBody!.velocity.dx,2.0) + pow(wagon!.physicsBody!.velocity.dy,2.0)
+        if (velocity > 2.2) {
+            // wagon!.zRotation = CGFloat(M_PI_2) - atan2((wagon!.physicsBody!.velocity.dx), (wagon!.physicsBody!.velocity.dy))
+            wagon!.zRotation = self.angleOfVector(wagon!.physicsBody!.velocity)
+            
+        } else {
+            // wagon!.zRotation = CGFloat(0.0)
+        }
         self.centerOnNode(self.childNodeWithName("world")!.childNodeWithName("wagon"))
     }
     
@@ -256,6 +262,7 @@ class GameScene: SKScene {
 	
 		prevCouple = [patternWidth, 0.0];
 		
+        var foundPoints = false
 		for couple in mespoints as [AnyObject]{
 			let c = couple as [NSNumber]
 			// println("couple \(c[0]) \(c[1])")
@@ -263,13 +270,33 @@ class GameScene: SKScene {
 				//
 				leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
 				rightPoint = CGPoint(x: CGFloat (prevCouple[0]), y: CGFloat (prevCouple[1]))
+                foundPoints = true
 				break;
 			}
 			prevCouple = c;
 		}
+        if (!foundPoints) {
+            return CGVector(dx: 0.0, dy: 0.0)
+        }
 		
+		// pour la shape, on récupère
 		return CGVector(dx: factor * coef * (rightPoint!.x - leftPoint!.x), dy: factor * coef * (rightPoint!.y - leftPoint!.y))
 	}
+    
+    func angleOfVector(vector: CGVector) -> CGFloat {
+        return CGFloat(M_PI_2) - atan2((vector.dx), (vector.dy))
+        var rawAngle = atan2(Double(vector.dx), Double(vector.dy))
+        if (vector.dy < 0 && vector.dx > 0) {
+            rawAngle *= -1
+            rawAngle += M_PI_2
+        } else if (vector.dy < 0 && vector.dx < 0) {
+            
+        } else if (vector.dy > 0 && vector.dx < 0) {
+            rawAngle *= -1
+            rawAngle += M_PI_2
+        }
+        return CGFloat(rawAngle)
+    }
 }
 
 

@@ -213,7 +213,7 @@
 				TargetAttributes = {
 					B52CFF241A72E006007C9E3F = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = GVE25YUPZ4;
+						DevelopmentTeam = D57V7BSY23;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 0;
@@ -222,7 +222,7 @@
 					};
 					B52CFF3D1A72E006007C9E3F = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = GVE25YUPZ4;
+						DevelopmentTeam = D57V7BSY23;
 						TestTargetID = B52CFF241A72E006007C9E3F;
 					};
 				};
