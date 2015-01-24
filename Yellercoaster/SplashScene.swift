@@ -77,19 +77,24 @@ class SplashScene: SKScene {
         } else {
             videoConnection.videoMirrored = true
         }
-        println(cameratype)
-        println(videoConnection)
         if videoConnection != nil {
             stillImageOutput.captureStillImageAsynchronouslyFromConnection(stillImageOutput.connectionWithMediaType(AVMediaTypeVideo)){
                 (imageDataSampleBuffer, error) -> Void in
                     self.shotPicture = UIImage(data: AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer))
-                UIImageWriteToSavedPhotosAlbum(self.shotImage,self,nil,nil)
-
+                UIImageWriteToSavedPhotosAlbum(self.shotImage,self,Selector("image:didFinishSavingWithError:contextInfo:"),nil)
             }
         }
-
+        endSession()
     }
+    
+    func image(image: UIImage, didFinishSavingWithError error: NSErrorPointer, contextInfo: UnsafePointer<()>) {
+        dispatch_async(dispatch_get_main_queue(), {
+            UIAlertView(title: "Success", message: "This image has been saved to your Camera Roll successfully", delegate: nil, cancelButtonTitle: "Close").show()
+        })
+    }
+    
     func beginSession() {
+        StreamCapture.sharedInstance.pause()
         var err : NSError? = nil
         captureSession.addInput(AVCaptureDeviceInput(device: captureDevice, error: &err))
         if err != nil {
@@ -99,6 +104,7 @@ class SplashScene: SKScene {
     }
     func endSession() {
         captureSession.stopRunning()
+        StreamCapture.sharedInstance.resume()
     }
 
     override func update(currentTime: CFTimeInterval) {
