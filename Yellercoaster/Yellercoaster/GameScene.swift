@@ -118,6 +118,7 @@ class GameScene: SKScene {
 		
 		if (squaredVelocity < maxVelocity * maxVelocity) {
 		
+			/*
 			var sign: CGFloat = 1.0;
 			if (tangent.dy > 0) {
 				sign = 1.0;
@@ -143,9 +144,10 @@ class GameScene: SKScene {
 			println("scalar\(scalar)")
 			
 			
-			var force = CGVector(dx: tangent.dx + ortho.dx, dy: tangent.dy + ortho.dy)
-			println("force \(force.dx) \(force.dy)")
-			wagon.physicsBody?.applyForce(force)
+			//var force = CGVector(dx: tangent.dx + ortho.dx, dy: tangent.dy + ortho.dy)
+			//println("force \(force.dx) \(force.dy)")
+			*/
+			wagon.physicsBody?.applyForce(tangent)
 		} else {
 			println("maxvelocity")
 		}
