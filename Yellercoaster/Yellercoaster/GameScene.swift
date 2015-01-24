@@ -15,6 +15,8 @@ class GameScene: SKScene {
 	var maxVelocity : CGFloat = 200.0
     var groundItems = [SKNode]()
 	let patternWidth:CGFloat = 400.0
+	var currentPattern:CGFloat = -1.0;
+	var currentJoint:SKPhysicsJointLimit?;
 	
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -31,10 +33,32 @@ class GameScene: SKScene {
         ground.name = "ground"
         world.addChild(ground)
         self.buildGroundIfNeeded()
+		
+		let wagon = world.childNodeWithName("wagon")!
+		let wagon1 = world.childNodeWithName("wagon1")!
+		let wagon2 = world.childNodeWithName("wagon2")!
+		let wagon3 = world.childNodeWithName("wagon3")!
+		let wagon4 = world.childNodeWithName("wagon4")!
+		let wagon5 = world.childNodeWithName("wagon5")!
+
+		let joint1: SKPhysicsJointSpring = SKPhysicsJointSpring.jointWithBodyA(wagon.physicsBody, bodyB: wagon1.physicsBody, anchorA: wagon.position, anchorB: wagon1.position)
+		self.physicsWorld.addJoint(joint1)
+		let joint2: SKPhysicsJointSpring = SKPhysicsJointSpring.jointWithBodyA(wagon1.physicsBody, bodyB: wagon2.physicsBody, anchorA: wagon1.position, anchorB: wagon2.position)
+		self.physicsWorld.addJoint(joint2)
+		let joint3: SKPhysicsJointSpring = SKPhysicsJointSpring.jointWithBodyA(wagon2.physicsBody, bodyB: wagon3.physicsBody, anchorA: wagon2.position, anchorB: wagon3.position)
+		self.physicsWorld.addJoint(joint3)
+		let joint4: SKPhysicsJointSpring = SKPhysicsJointSpring.jointWithBodyA(wagon3.physicsBody, bodyB: wagon4.physicsBody, anchorA: wagon3.position, anchorB: wagon4.position)
+		self.physicsWorld.addJoint(joint4)
+		let joint5: SKPhysicsJointSpring = SKPhysicsJointSpring.jointWithBodyA(wagon4.physicsBody, bodyB: wagon5.physicsBody, anchorA: wagon4.position, anchorB: wagon5.position)
+		self.physicsWorld.addJoint(joint5)
+		
+		
     }
     
     func buildGroundIfNeeded() {
+
         let world = self.childNodeWithName("world")!
+		let wagon = world.childNodeWithName("wagon")!
         if let ground = world.childNodeWithName("ground") {
             if (self.groundBuilt - self.avancement - 1100.0 <= 0.0) {
                 let bHeight = 1 + arc4random() % 500
@@ -54,6 +78,7 @@ class GameScene: SKScene {
                 body.dynamic = false
                 shape.physicsBody = body
                 ground.addChild(shape)
+				
                 self.groundItems.append(shape)
                 self.groundBuilt += patternWidth
                 if (self.groundItems.count > 8) {
@@ -108,7 +133,7 @@ class GameScene: SKScene {
         //wagon.physicsBody?.applyForce(CGVector(dx: 300.0 * xDiff, dy: 0.0))
 		let tangent = getTangentVector(wagon.position.x, factor: xDiff);
 		var tangentNorm = sqrt((tangent.dx * tangent.dx) + (tangent.dy * tangent.dy))
-		println("tangent \(tangent.dx) \(tangent.dy) \(tangentNorm)");
+		//println("tangent \(tangent.dx) \(tangent.dy) \(tangentNorm)");
 
 		let vv = wagon.physicsBody?.velocity;
 		
@@ -150,7 +175,7 @@ class GameScene: SKScene {
 			*/
 			wagon.physicsBody?.applyForce(tangent)
 		} else {
-			println("maxvelocity")
+			//println("maxvelocity")
 		}
         // ground.position = CGPoint(x: ground.position.x - xDiff, y: ground.position.y)
         self.avancement = wagon.position.x
@@ -200,8 +225,27 @@ class GameScene: SKScene {
 			prevNode = node;
 		}
 
-		// println("nxtNode \(nxtNode!.position.x)")
+		let wagon  = self.childNodeWithName("world")!.childNodeWithName("wagon")!;
 		let shape = nxtNode as SKShapeNode;
+		
+		if currentPattern != nxtNode!.position.x {
+			println("changement de joint \(nxtNode!.position.x)")
+			if  currentJoint != nil {
+				self.physicsWorld.removeJoint(currentJoint!);
+				
+			}
+			// changement de pattern, mise a jour du joint
+		
+			// println("nxtNode \(nxtNode!.position.x)")
+
+			
+			var joint: SKPhysicsJointLimit = SKPhysicsJointLimit.jointWithBodyA(shape.physicsBody, bodyB: wagon.physicsBody, anchorA: shape.position, anchorB: wagon.position)
+			joint.maxLength = 3.0
+			self.physicsWorld.addJoint(joint)
+			currentJoint = joint
+			currentPattern = nxtNode!.position.x
+			
+		}
 		
 		var mespoints = BezierHelper.getPointsFromPath(shape.path);
 		mespoints.addObject([0.0,0.0])
