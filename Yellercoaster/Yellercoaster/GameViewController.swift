@@ -29,6 +29,7 @@ extension SKNode {
 class GameViewController: UIViewController, AVAudioRecorderDelegate {
 
     var recorder: AVAudioRecorder?
+    var audioPlayer: AVAudioPlayer?
     var lowPassResults:Double = 0.0
     
     override func viewDidLoad() {
@@ -60,6 +61,12 @@ class GameViewController: UIViewController, AVAudioRecorderDelegate {
             let levelTimer = NSTimer.scheduledTimerWithTimeInterval(0.03, target: self, selector: "level", userInfo: nil, repeats: true)
         }
 
+        //var song = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("livingdead", ofType: "mp3")!)
+        //var error2:NSError?
+        //self.audioPlayer = AVAudioPlayer(contentsOfURL: song, error: &error2)
+        //self.audioPlayer?.prepareToPlay()
+        //self.audioPlayer?.play()
+        
         if let scene = SplashScene.unarchiveFromFile("SplashScene") as? SplashScene {
             // Configure the view.
             let skView = self.view as SKView
@@ -78,11 +85,18 @@ class GameViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
+    func sinusite(x: Double) -> Double {
+        return sin(x*M_PI/2.0)
+    }
+    func megasinusite(x: Double) -> Double {
+        return sinusite(sinusite(sinusite(x)))
+    }
+    
     func level() {
         self.recorder?.updateMeters()
-        let ALPHA = 0.10
-        let peakPowerForChannel = pow(10, ALPHA * Double(self.recorder!.averagePowerForChannel(0)))
-        self.lowPassResults = ALPHA * peakPowerForChannel + (1.0 - ALPHA) * self.lowPassResults
+        let ALPHA = 0.09
+        let averagePowerForChannel = self.megasinusite(M_PI * pow(10, ALPHA * Double(self.recorder!.averagePowerForChannel(0))))
+        self.lowPassResults = ALPHA * averagePowerForChannel + (1.0 - ALPHA) * self.lowPassResults
         // NSLog("Average input: %f Peak input: %f Low pass results: %f", self.recorder!.averagePowerForChannel(0), self.recorder!.peakPowerForChannel(0), lowPassResults)
         let app = UIApplication.sharedApplication().delegate as AppDelegate
         app.audioLevel = self.lowPassResults
@@ -94,9 +108,9 @@ class GameViewController: UIViewController, AVAudioRecorderDelegate {
 
     override func supportedInterfaceOrientations() -> Int {
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
+            return Int(UIInterfaceOrientationMask.Landscape.rawValue)
         } else {
-            return Int(UIInterfaceOrientationMask.All.rawValue)
+            return Int(UIInterfaceOrientationMask.Landscape.rawValue)
         }
     }
 

@@ -102,6 +102,10 @@ class GameScene: SKScene {
 	wagon.physicsBody?.applyForce(getTangentVector(wagon.position.x, factor: xDiff))
         // ground.position = CGPoint(x: ground.position.x - xDiff, y: ground.position.y)
         self.avancement = Double(wagon.position.x)
+        
+        let jauge = self.childNodeWithName("jauge") as SKSpriteNode
+        let jaugeBG = self.childNodeWithName("jaugeBG") as SKSpriteNode
+        jauge.size.height = jaugeBG.size.height * CGFloat(level)
     }
     
     override func didFinishUpdate() {
@@ -167,8 +171,6 @@ class GameScene: SKScene {
 		// pour la shape, on récupère
 		return CGVector(dx: factor * coef * (rightPoint!.x - leftPoint!.x), dy: factor * coef * (rightPoint!.y - leftPoint!.y))
 	}
-	
-
 }
 
 
