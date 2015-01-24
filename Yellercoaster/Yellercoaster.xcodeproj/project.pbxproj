@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		214AC2FA1A740DA100BDE8A5 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 214AC2F91A740DA100BDE8A5 /* GameKit.framework */; };
 		3273740C1A73B86A0002636D /* UIBezierPath+Rob_points.m in Sources */ = {isa = PBXBuildFile; fileRef = 327374061A73B86A0002636D /* UIBezierPath+Rob_points.m */; };
 		3273740E1A73B86A0002636D /* UIBezierPath+Rob_forEach.m in Sources */ = {isa = PBXBuildFile; fileRef = 327374091A73B86A0002636D /* UIBezierPath+Rob_forEach.m */; };
 		3273740F1A73B86A0002636D /* UIBezierPath+Rob_dash.m in Sources */ = {isa = PBXBuildFile; fileRef = 3273740B1A73B86A0002636D /* UIBezierPath+Rob_dash.m */; };
@@ -37,7 +36,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		214AC2F91A740DA100BDE8A5 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		327374011A73B28D0002636D /* Yellercoaster-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Yellercoaster-Bridging-Header.h"; sourceTree = "<group>"; };
 		327374051A73B86A0002636D /* UIBezierPath+Rob_points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+Rob_points.h"; sourceTree = "<group>"; };
 		327374061A73B86A0002636D /* UIBezierPath+Rob_points.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+Rob_points.m"; sourceTree = "<group>"; };
@@ -71,7 +69,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B52CFF4F1A72E386007C9E3F /* AVFoundation.framework in Frameworks */,
-				214AC2FA1A740DA100BDE8A5 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,7 +98,6 @@
 		B52CFF1C1A72E006007C9E3F = {
 			isa = PBXGroup;
 			children = (
-				214AC2F91A740DA100BDE8A5 /* GameKit.framework */,
 				B52CFF4E1A72E386007C9E3F /* AVFoundation.framework */,
 				B52CFF271A72E006007C9E3F /* Yellercoaster */,
 				B52CFF411A72E006007C9E3F /* YellercoasterTests */,
@@ -214,15 +210,16 @@
 				TargetAttributes = {
 					B52CFF241A72E006007C9E3F = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = 4699QGD4UQ;
+						DevelopmentTeam = D57V7BSY23;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
 					B52CFF3D1A72E006007C9E3F = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = D57V7BSY23;
 						TestTargetID = B52CFF241A72E006007C9E3F;
 					};
 				};

@@ -12,6 +12,7 @@ import SpriteKit
 class GameScene: SKScene {
     var avancement = 0.0
     var groundBuilt = 0.0
+	var maxVelocity : CGFloat = 750.0
     var groundItems = [SKNode]()
     
     override func didMoveToView(view: SKView) {
@@ -104,9 +105,48 @@ class GameScene: SKScene {
         let xDiff = CGFloat(20.0*level)
 		// println("XDiff \(xDiff)")
         //wagon.physicsBody?.applyForce(CGVector(dx: 300.0 * xDiff, dy: 0.0))
-		let force = getTangentVector(wagon.position.x, factor: xDiff);
-		// println("force \(force.dx) \(force.dy)")
-		wagon.physicsBody?.applyForce(force)
+		let tangent = getTangentVector(wagon.position.x, factor: xDiff);
+		var tangentNorm = sqrt((tangent.dx * tangent.dx) + (tangent.dy * tangent.dy))
+		// println("tangent \(tangent.dx) \(tangent.dy) \(tangentNorm)");
+
+		let vv = wagon.physicsBody?.velocity;
+		
+		let mass = wagon.physicsBody?.mass;
+		let nimpCoef: CGFloat = 1.0;
+		
+		var squaredVelocity: CGFloat = vv!.dx * vv!.dx + vv!.dy * vv!.dy;
+		
+		if (squaredVelocity < maxVelocity * maxVelocity) {
+			var sign: CGFloat = 1.0;
+			if (tangent.dy > 0) {
+				sign = 1.0;
+			} else {
+				sign = -1.0;
+			}
+			var ortho = CGVector(dx: sign * nimpCoef * mass! * squaredVelocity, dy: -(tangent.dx * mass! * squaredVelocity * nimpCoef / tangent.dy))
+			// println("ortho \(ortho.dx) \(ortho.dy)");
+			var orthoNorm = sqrt((ortho.dx * ortho.dx) + (ortho.dy * ortho.dy))
+			if (orthoNorm > 0.000001) {
+				ortho.dx = ortho.dx / orthoNorm * tangentNorm;
+				ortho.dy = ortho.dy / orthoNorm * tangentNorm;
+			} else {
+				// println("ortho null")
+			}
+			
+			let fleche = self.childNodeWithName("fleche")!
+			fleche.zRotation = self.angleOfVector(tangent)
+			
+			var scalar = tangent.dx * ortho.dx + tangent.dy * ortho.dy
+			// println("scalar\(scalar)")
+			
+			
+			//var force = CGVector(dx: tangent.dx + ortho.dx, dy: tangent.dy + ortho.dy)
+			//println("force \(force.dx) \(force.dy)")
+
+			wagon.physicsBody?.applyForce(tangent)
+		} else {
+			println("maxvelocity")
+		}
         // ground.position = CGPoint(x: ground.position.x - xDiff, y: ground.position.y)
         self.avancement = Double(wagon.position.x)
         
@@ -120,9 +160,11 @@ class GameScene: SKScene {
         let wagon = world?.childNodeWithName("wagon")
         let velocity = pow(wagon!.physicsBody!.velocity.dx,2.0) + pow(wagon!.physicsBody!.velocity.dy,2.0)
         if (velocity > 2.2) {
-            wagon!.zRotation = CGFloat(M_PI_2) - atan2((wagon!.physicsBody!.velocity.dx), (wagon!.physicsBody!.velocity.dy))
+            // wagon!.zRotation = CGFloat(M_PI_2) - atan2((wagon!.physicsBody!.velocity.dx), (wagon!.physicsBody!.velocity.dy))
+            wagon!.zRotation = self.angleOfVector(wagon!.physicsBody!.velocity)
+            
         } else {
-            wagon!.zRotation = CGFloat(0.0)
+            // wagon!.zRotation = CGFloat(0.0)
         }
         self.centerOnNode(self.childNodeWithName("world")!.childNodeWithName("wagon"))
     }
@@ -152,10 +194,10 @@ class GameScene: SKScene {
 		// NORMALEMENT les shapes sont triées par leur position en x
 		var prevNode : SKNode?;
 		var nxtNode : SKNode?;
-		var coef: CGFloat = 7.0;
+		var coef: CGFloat = 5.0;
 		
 		for node in self.groundItems {
-			// println("position-test: \(node.position.x) for player: \(x)")
+			//println("position-test: \(node.position.x) for player: \(x)")
 			if node.position.x > x {
 				nxtNode = node;
 				break;
@@ -196,6 +238,21 @@ class GameScene: SKScene {
 		// pour la shape, on récupère
 		return CGVector(dx: factor * coef * (rightPoint!.x - leftPoint!.x), dy: factor * coef * (rightPoint!.y - leftPoint!.y))
 	}
+    
+    func angleOfVector(vector: CGVector) -> CGFloat {
+        return CGFloat(M_PI_2) - atan2((vector.dx), (vector.dy))
+        var rawAngle = atan2(Double(vector.dx), Double(vector.dy))
+        if (vector.dy < 0 && vector.dx > 0) {
+            rawAngle *= -1
+            rawAngle += M_PI_2
+        } else if (vector.dy < 0 && vector.dx < 0) {
+            
+        } else if (vector.dy > 0 && vector.dx < 0) {
+            rawAngle *= -1
+            rawAngle += M_PI_2
+        }
+        return CGFloat(rawAngle)
+    }
 }
 
 

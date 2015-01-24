@@ -10,6 +10,22 @@ atan2f(1,1)
 atan2f(1,-1)
 atan2f(1,-2)
 
+func angleOfVector(vector: CGVector) -> CGFloat {
+    var rawAngle = atan2(Double(vector.dx), Double(vector.dy))
+    if (vector.dy < 0) {
+        rawAngle *= -1
+        rawAngle += M_PI_2
+    }
+    if (vector.dx < 0) {
+        rawAngle
+    }
+    return CGFloat(rawAngle)
+}
+
+let v1 = CGVector(dx: 1.0, dy: 1.0)
+angleOfVector(v1)
+let ka = M_PI_4
+
 
 //
 //var prout = pow(10.0, 3.0)
