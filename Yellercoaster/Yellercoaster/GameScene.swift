@@ -116,6 +116,14 @@ class GameScene: SKScene {
     }
     
     override func didFinishUpdate() {
+        let world = self.childNodeWithName("world")
+        let wagon = world?.childNodeWithName("wagon")
+        let velocity = pow(wagon!.physicsBody!.velocity.dx,2.0) + pow(wagon!.physicsBody!.velocity.dy,2.0)
+        if (velocity > 2.2) {
+            wagon!.zRotation = CGFloat(M_PI_2) - atan2((wagon!.physicsBody!.velocity.dx), (wagon!.physicsBody!.velocity.dy))
+        } else {
+            wagon!.zRotation = CGFloat(0.0)
+        }
         self.centerOnNode(self.childNodeWithName("world")!.childNodeWithName("wagon"))
     }
     
@@ -167,18 +175,23 @@ class GameScene: SKScene {
 	
 		prevCouple = [400.0, 0.0];
 		
+        var foundPoints = false
 		for couple in mespoints as [AnyObject]{
 			let c = couple as [NSNumber]
 			// println("couple \(c[0]) \(c[1])")
+            
 			if CGFloat(c[0]) < (x-nxtNode!.position.x+400.0) {
 				//
 				leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
 				rightPoint = CGPoint(x: CGFloat (prevCouple[0]), y: CGFloat (prevCouple[1]))
+                foundPoints = true
 				break;
 			}
 			prevCouple = c;
 		}
-		
+        if (!foundPoints) {
+            return CGVector(dx: 0.0, dy: 0.0)
+        }
 		
 		// pour la shape, on récupère
 		return CGVector(dx: factor * coef * (rightPoint!.x - leftPoint!.x), dy: factor * coef * (rightPoint!.y - leftPoint!.y))
