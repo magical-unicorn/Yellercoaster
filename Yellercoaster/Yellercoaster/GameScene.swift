@@ -102,10 +102,10 @@ class GameScene: SKScene {
         // wagon.physicsBody?.applyImpulse(CGVector(dx: 300.0 - Double(wPos.x), dy: 0.0))
         
         let xDiff = CGFloat(20.0*level)
-		println("XDiff \(xDiff)")
+		// println("XDiff \(xDiff)")
         //wagon.physicsBody?.applyForce(CGVector(dx: 300.0 * xDiff, dy: 0.0))
 		let force = getTangentVector(wagon.position.x, factor: xDiff);
-		println("force \(force.dx) \(force.dy)")
+		// println("force \(force.dx) \(force.dy)")
 		wagon.physicsBody?.applyForce(force)
         // ground.position = CGPoint(x: ground.position.x - xDiff, y: ground.position.y)
         self.avancement = Double(wagon.position.x)
@@ -147,7 +147,7 @@ class GameScene: SKScene {
 		var coef: CGFloat = 7.0;
 		
 		for node in self.groundItems {
-			println("position-test: \(node.position.x) for player: \(x)")
+			// println("position-test: \(node.position.x) for player: \(x)")
 			if node.position.x > x {
 				nxtNode = node;
 				break;
@@ -155,7 +155,7 @@ class GameScene: SKScene {
 			prevNode = node;
 		}
 
-		println("nxtNode \(nxtNode!.position.x)")
+		// println("nxtNode \(nxtNode!.position.x)")
 		let shape = nxtNode as SKShapeNode;
 		
 		var mespoints = BezierHelper.getPointsFromPath(shape.path);
@@ -169,7 +169,7 @@ class GameScene: SKScene {
 		
 		for couple in mespoints as [AnyObject]{
 			let c = couple as [NSNumber]
-			println("couple \(c[0]) \(c[1])")
+			// println("couple \(c[0]) \(c[1])")
 			if CGFloat(c[0]) < (x-nxtNode!.position.x+400.0) {
 				//
 				leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
