@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		214AC2FA1A740DA100BDE8A5 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 214AC2F91A740DA100BDE8A5 /* GameKit.framework */; };
+		3242BA801A74229300177EA9 /* StreamCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242BA7F1A74229300177EA9 /* StreamCapture.swift */; };
 		3273740C1A73B86A0002636D /* UIBezierPath+Rob_points.m in Sources */ = {isa = PBXBuildFile; fileRef = 327374061A73B86A0002636D /* UIBezierPath+Rob_points.m */; };
 		3273740E1A73B86A0002636D /* UIBezierPath+Rob_forEach.m in Sources */ = {isa = PBXBuildFile; fileRef = 327374091A73B86A0002636D /* UIBezierPath+Rob_forEach.m */; };
 		3273740F1A73B86A0002636D /* UIBezierPath+Rob_dash.m in Sources */ = {isa = PBXBuildFile; fileRef = 3273740B1A73B86A0002636D /* UIBezierPath+Rob_dash.m */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		214AC2F91A740DA100BDE8A5 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		3242BA7F1A74229300177EA9 /* StreamCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamCapture.swift; sourceTree = "<group>"; };
 		327374011A73B28D0002636D /* Yellercoaster-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Yellercoaster-Bridging-Header.h"; sourceTree = "<group>"; };
 		327374051A73B86A0002636D /* UIBezierPath+Rob_points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+Rob_points.h"; sourceTree = "<group>"; };
 		327374061A73B86A0002636D /* UIBezierPath+Rob_points.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+Rob_points.m"; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				B52CFF521A730931007C9E3F /* SplashScene.sks */,
 				B52CFF541A73094C007C9E3F /* SplashScene.swift */,
 				B52CFF301A72E006007C9E3F /* GameViewController.swift */,
+				3242BA7F1A74229300177EA9 /* StreamCapture.swift */,
 				B52CFF321A72E006007C9E3F /* Main.storyboard */,
 				B52CFF351A72E006007C9E3F /* Images.xcassets */,
 				B52CFF371A72E006007C9E3F /* LaunchScreen.xib */,
@@ -280,6 +283,7 @@
 				3273740C1A73B86A0002636D /* UIBezierPath+Rob_points.m in Sources */,
 				B52CFF311A72E006007C9E3F /* GameViewController.swift in Sources */,
 				3273740F1A73B86A0002636D /* UIBezierPath+Rob_dash.m in Sources */,
+				3242BA801A74229300177EA9 /* StreamCapture.swift in Sources */,
 				3273740E1A73B86A0002636D /* UIBezierPath+Rob_forEach.m in Sources */,
 				B52CFF2B1A72E006007C9E3F /* AppDelegate.swift in Sources */,
 			);
