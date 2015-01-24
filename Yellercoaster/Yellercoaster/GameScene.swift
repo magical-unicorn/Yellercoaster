@@ -14,7 +14,8 @@ class GameScene: SKScene {
     var groundBuilt = 0.0
 	var maxVelocity : CGFloat = 750.0
     var groundItems = [SKNode]()
-    
+	let patternWidth:CGFloat = 400.0
+	
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
@@ -54,7 +55,7 @@ class GameScene: SKScene {
                 shape.physicsBody = body
                 ground.addChild(shape)
                 self.groundItems.append(shape)
-                self.groundBuilt += 400.0
+                self.groundBuilt += patternWidth
                 if (self.groundItems.count > 8) {
                     let del = self.groundItems.first
                     del?.removeFromParent()
@@ -148,7 +149,7 @@ class GameScene: SKScene {
 			println("maxvelocity")
 		}
         // ground.position = CGPoint(x: ground.position.x - xDiff, y: ground.position.y)
-        self.avancement = Double(wagon.position.x)
+        self.avancement = wagon.position.x
         
         let jauge = self.childNodeWithName("jauge") as SKSpriteNode
         let jaugeBG = self.childNodeWithName("jaugeBG") as SKSpriteNode
@@ -180,7 +181,7 @@ class GameScene: SKScene {
     
     func getBezier(ySize: Double) -> UIBezierPath {
         let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: 400.0, y: 0.0))
+        path.moveToPoint(CGPoint(x: patternWidth, y: 0.0))
         path.addCurveToPoint(CGPoint(x: 200.0, y: ySize), controlPoint1: CGPoint(x: 320.0, y: 0.0), controlPoint2: CGPoint(x: 280.0, y: ySize))
         path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 120.0, y: ySize), controlPoint2: CGPoint(x: 80.0, y: 0.0))
         return path
@@ -215,14 +216,13 @@ class GameScene: SKScene {
 		var rightPoint: CGPoint?;
 		var prevCouple: [NSNumber];
 	
-		prevCouple = [400.0, 0.0];
+		prevCouple = [patternWidth, 0.0];
 		
         var foundPoints = false
 		for couple in mespoints as [AnyObject]{
 			let c = couple as [NSNumber]
 			// println("couple \(c[0]) \(c[1])")
-            
-			if CGFloat(c[0]) < (x-nxtNode!.position.x+400.0) {
+			if CGFloat(c[0]) < (x - nxtNode!.position.x + patternWidth) {
 				//
 				leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
 				rightPoint = CGPoint(x: CGFloat (prevCouple[0]), y: CGFloat (prevCouple[1]))
