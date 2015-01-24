@@ -98,8 +98,11 @@ class GameScene: SKScene {
         // wagon.physicsBody?.applyImpulse(CGVector(dx: 300.0 - Double(wPos.x), dy: 0.0))
         
         let xDiff = CGFloat(20.0*level)
+		println("XDiff \(xDiff)")
         //wagon.physicsBody?.applyForce(CGVector(dx: 300.0 * xDiff, dy: 0.0))
-	wagon.physicsBody?.applyForce(getTangentVector(wagon.position.x, factor: xDiff))
+		let force = getTangentVector(wagon.position.x, factor: xDiff);
+		println("force \(force.dx) \(force.dy)")
+		wagon.physicsBody?.applyForce(force)
         // ground.position = CGPoint(x: ground.position.x - xDiff, y: ground.position.y)
         self.avancement = Double(wagon.position.x)
         
@@ -137,7 +140,7 @@ class GameScene: SKScene {
 		// NORMALEMENT les shapes sont triées par leur position en x
 		var prevNode : SKNode?;
 		var nxtNode : SKNode?;
-		var coef: CGFloat = 1.0;
+		var coef: CGFloat = 7.0;
 		
 		for node in self.groundItems {
 			println("position-test: \(node.position.x) for player: \(x)")
@@ -147,19 +150,24 @@ class GameScene: SKScene {
 			}
 			prevNode = node;
 		}
-		let shape = prevNode as SKShapeNode;
-		let mespoints = BezierHelper.getPointsFromPath(shape.path);
+
+		println("nxtNode \(nxtNode!.position.x)")
+		let shape = nxtNode as SKShapeNode;
 		
+		var mespoints = BezierHelper.getPointsFromPath(shape.path);
+		mespoints.addObject([0.0,0.0])
 		// points triés en décroissant
 		var leftPoint: CGPoint?;
 		var rightPoint: CGPoint?;
 		var prevCouple: [NSNumber];
 	
-		prevCouple = [nxtNode!.position.x, nxtNode!.position.y];
+		prevCouple = [400.0, 0.0];
+		
 		for couple in mespoints as [AnyObject]{
 			let c = couple as [NSNumber]
-			
-			if CGFloat(c[0]) < x {
+			println("couple \(c[0]) \(c[1])")
+			if CGFloat(c[0]) < (x-nxtNode!.position.x+400.0) {
+				//
 				leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
 				rightPoint = CGPoint(x: CGFloat (prevCouple[0]), y: CGFloat (prevCouple[1]))
 				break;
