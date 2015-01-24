@@ -55,7 +55,7 @@ class GameScene: SKScene {
                 shape.physicsBody = body
                 ground.addChild(shape)
                 self.groundItems.append(shape)
-                self.groundBuilt += patternWidth
+                self.groundBuilt += Double(patternWidth)
                 if (self.groundItems.count > 8) {
                     let del = self.groundItems.first
                     del?.removeFromParent()
@@ -149,7 +149,7 @@ class GameScene: SKScene {
 			println("maxvelocity")
 		}
         // ground.position = CGPoint(x: ground.position.x - xDiff, y: ground.position.y)
-        self.avancement = wagon.position.x
+        self.avancement = Double(wagon.position.x)
         
         let jauge = self.childNodeWithName("jauge") as SKSpriteNode
         let jaugeBG = self.childNodeWithName("jaugeBG") as SKSpriteNode
