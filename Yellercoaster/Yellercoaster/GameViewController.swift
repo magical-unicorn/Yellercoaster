@@ -17,7 +17,7 @@ extension SKNode {
             var archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
             
             archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-            let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as GameScene
+            let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as SKScene
             archiver.finishDecoding()
             return scene
         } else {
@@ -60,11 +60,12 @@ class GameViewController: UIViewController, AVAudioRecorderDelegate {
             let levelTimer = NSTimer.scheduledTimerWithTimeInterval(0.03, target: self, selector: "level", userInfo: nil, repeats: true)
         }
 
-        if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
+        if let scene = SplashScene.unarchiveFromFile("SplashScene") as? SplashScene {
             // Configure the view.
             let skView = self.view as SKView
             skView.showsFPS = true
             skView.showsNodeCount = true
+            skView.showsPhysics = true
             
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
@@ -72,17 +73,19 @@ class GameViewController: UIViewController, AVAudioRecorderDelegate {
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .AspectFill
             
-            skView.presentScene(scene)
+            skView.presentScene(scene, transition: SKTransition.flipVerticalWithDuration(0.6))
+            
         }
     }
     
     func level() {
         self.recorder?.updateMeters()
-        let ALPHA = 0.11
+        let ALPHA = 0.10
         let peakPowerForChannel = pow(10, ALPHA * Double(self.recorder!.averagePowerForChannel(0)))
         self.lowPassResults = ALPHA * peakPowerForChannel + (1.0 - ALPHA) * self.lowPassResults
         // NSLog("Average input: %f Peak input: %f Low pass results: %f", self.recorder!.averagePowerForChannel(0), self.recorder!.peakPowerForChannel(0), lowPassResults)
-        
+        let app = UIApplication.sharedApplication().delegate as AppDelegate
+        app.audioLevel = self.lowPassResults
     }
 
     override func shouldAutorotate() -> Bool {
