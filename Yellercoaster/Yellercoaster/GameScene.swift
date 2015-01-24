@@ -8,6 +8,7 @@
 
 import SpriteKit
 
+
 class GameScene: SKScene {
     var avancement = 0.0
     var groundBuilt = 0.0
@@ -43,6 +44,7 @@ class GameScene: SKScene {
                 shape.setTiledFillTexture("alpha", tileSize: CGSize(width: 32.0, height: 32.0))
                 shape.strokeColor = SKColor.blackColor()
                 shape.position = CGPoint(x: self.groundBuilt, y: 0.0)
+				
                 shape.xScale = 1.0
                 shape.yScale = 1.0
                 let body = SKPhysicsBody(polygonFromPath: bezier.CGPath)
@@ -83,9 +85,9 @@ class GameScene: SKScene {
     }
    
     override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
-        self.buildGroundIfNeeded()
-        
+		/* Called before each frame is rendered */
+		self.buildGroundIfNeeded()
+		
         let world = self.childNodeWithName("world")!
         let wagon = world.childNodeWithName("wagon")!
         let ground = world.childNodeWithName("ground")!
@@ -94,13 +96,17 @@ class GameScene: SKScene {
         let level = app.audioLevel
         
         let wPos = wagon.position
-        
+
         // wagon.physicsBody?.applyForce(CGVector(dx: 20.0*(300.0 - Double(wPos.x)), dy: 0.0))
         // wagon.physicsBody?.velocity.dx = 300.0 - wPos.x
         // wagon.physicsBody?.applyImpulse(CGVector(dx: 300.0 - Double(wPos.x), dy: 0.0))
         
         let xDiff = CGFloat(20.0*level)
-        wagon.physicsBody?.applyForce(CGVector(dx: 140.0 * xDiff, dy: 0.0))
+		println("XDiff \(xDiff)")
+        //wagon.physicsBody?.applyForce(CGVector(dx: 300.0 * xDiff, dy: 0.0))
+		let force = getTangentVector(wagon.position.x, factor: xDiff);
+		println("force \(force.dx) \(force.dy)")
+		wagon.physicsBody?.applyForce(force)
         // ground.position = CGPoint(x: ground.position.x - xDiff, y: ground.position.y)
         self.avancement = Double(wagon.position.x)
         
@@ -129,6 +135,54 @@ class GameScene: SKScene {
         path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 120.0, y: ySize), controlPoint2: CGPoint(x: 80.0, y: 0.0))
         return path
     }
+
+	func getTangentVector(x: CGFloat,factor: CGFloat) -> CGVector {
+		if (self.groundItems.count < 3) {
+			return CGVector(dx: 0.0, dy: 0.0)
+		}
+		// pour x compris dans l'intervalle d'une shape, on récup la shape
+		// NORMALEMENT les shapes sont triées par leur position en x
+		var prevNode : SKNode?;
+		var nxtNode : SKNode?;
+		var coef: CGFloat = 7.0;
+		
+		for node in self.groundItems {
+			println("position-test: \(node.position.x) for player: \(x)")
+			if node.position.x > x {
+				nxtNode = node;
+				break;
+			}
+			prevNode = node;
+		}
+
+		println("nxtNode \(nxtNode!.position.x)")
+		let shape = nxtNode as SKShapeNode;
+		
+		var mespoints = BezierHelper.getPointsFromPath(shape.path);
+		mespoints.addObject([0.0,0.0])
+		// points triés en décroissant
+		var leftPoint: CGPoint?;
+		var rightPoint: CGPoint?;
+		var prevCouple: [NSNumber];
+	
+		prevCouple = [400.0, 0.0];
+		
+		for couple in mespoints as [AnyObject]{
+			let c = couple as [NSNumber]
+			println("couple \(c[0]) \(c[1])")
+			if CGFloat(c[0]) < (x-nxtNode!.position.x+400.0) {
+				//
+				leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
+				rightPoint = CGPoint(x: CGFloat (prevCouple[0]), y: CGFloat (prevCouple[1]))
+				break;
+			}
+			prevCouple = c;
+		}
+		
+		
+		// pour la shape, on récupère
+		return CGVector(dx: factor * coef * (rightPoint!.x - leftPoint!.x), dy: factor * coef * (rightPoint!.y - leftPoint!.y))
+	}
 }
 
 
