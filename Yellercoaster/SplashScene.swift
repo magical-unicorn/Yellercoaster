@@ -7,8 +7,19 @@
 //
 
 import SpriteKit
+import AVFoundation
+import MobileCoreServices
 
 class SplashScene: SKScene {
+
+    let captureSession = AVCaptureSession()
+    var captureDevice : AVCaptureDevice?
+    var stillImageOutput = AVCaptureStillImageOutput()
+    var imageData: NSData!
+    var shotImage: UIImage!
+    var cameratype: Bool = true
+    var shotPicture: UIImage!
+
     override func didMoveToView(view: SKView) {
         
     }
@@ -21,8 +32,11 @@ class SplashScene: SKScene {
             let nodes = self.nodesAtPoint(location)
             
             for node in nodes as [SKNode] {
-                if (node.name == "startBtn") {
+                println(node.name)
+                if (node.name == "startBtn"){
                     self.letsPlayBaby()
+                }else if (node.name == "photoBtn"){
+                    self.letsMakeASelfie()
                 }
             }
         }
@@ -35,6 +49,58 @@ class SplashScene: SKScene {
 
     }
     
+    func letsMakeASelfie() {
+        println("but first, let me tage a selfie")
+        captureSession.sessionPreset = AVCaptureSessionPresetHigh
+        let devices = AVCaptureDevice.devices()
+        for device in devices {
+            if (device.hasMediaType(AVMediaTypeVideo)) {
+                if(device.position == AVCaptureDevicePosition.Front) {
+                    captureDevice = device as? AVCaptureDevice
+                    if captureDevice != nil {
+                        beginSession()
+                        takePicture()
+                    }
+                }
+            }
+        }
+    }
+
+    func takePicture() {
+        stillImageOutput.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
+        if captureSession.canAddOutput(stillImageOutput) {
+            captureSession.addOutput(stillImageOutput)
+        }
+        var videoConnection = stillImageOutput.connectionWithMediaType(AVMediaTypeVideo)
+        if(cameratype == true) {
+            videoConnection.videoMirrored = false
+        } else {
+            videoConnection.videoMirrored = true
+        }
+        println(cameratype)
+        println(videoConnection)
+        if videoConnection != nil {
+            stillImageOutput.captureStillImageAsynchronouslyFromConnection(stillImageOutput.connectionWithMediaType(AVMediaTypeVideo)){
+                (imageDataSampleBuffer, error) -> Void in
+                    self.shotPicture = UIImage(data: AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer))
+                UIImageWriteToSavedPhotosAlbum(self.shotImage,self,nil,nil)
+
+            }
+        }
+
+    }
+    func beginSession() {
+        var err : NSError? = nil
+        captureSession.addInput(AVCaptureDeviceInput(device: captureDevice, error: &err))
+        if err != nil {
+            println("error: \(err?.localizedDescription)")
+        }
+        captureSession.startRunning()
+    }
+    func endSession() {
+        captureSession.stopRunning()
+    }
+
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         let label = self.childNodeWithName("audioLevel") as SKLabelNode
