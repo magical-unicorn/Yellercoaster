@@ -18,6 +18,7 @@
 		B52CFF4F1A72E386007C9E3F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B52CFF4E1A72E386007C9E3F /* AVFoundation.framework */; };
 		B52CFF531A730931007C9E3F /* SplashScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B52CFF521A730931007C9E3F /* SplashScene.sks */; };
 		B52CFF551A73094C007C9E3F /* SplashScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52CFF541A73094C007C9E3F /* SplashScene.swift */; };
+		B52CFF591A73D401007C9E3F /* alpha.png in Resources */ = {isa = PBXBuildFile; fileRef = B52CFF581A73D401007C9E3F /* alpha.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		B52CFF4E1A72E386007C9E3F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		B52CFF521A730931007C9E3F /* SplashScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = SplashScene.sks; path = ../SplashScene.sks; sourceTree = "<group>"; };
 		B52CFF541A73094C007C9E3F /* SplashScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SplashScene.swift; path = ../SplashScene.swift; sourceTree = "<group>"; };
+		B52CFF581A73D401007C9E3F /* alpha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alpha.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				B52CFF321A72E006007C9E3F /* Main.storyboard */,
 				B52CFF351A72E006007C9E3F /* Images.xcassets */,
 				B52CFF371A72E006007C9E3F /* LaunchScreen.xib */,
+				B52CFF581A73D401007C9E3F /* alpha.png */,
 				B52CFF281A72E006007C9E3F /* Supporting Files */,
 			);
 			path = Yellercoaster;
@@ -210,6 +213,7 @@
 			files = (
 				B52CFF391A72E006007C9E3F /* LaunchScreen.xib in Resources */,
 				B52CFF361A72E006007C9E3F /* Images.xcassets in Resources */,
+				B52CFF591A73D401007C9E3F /* alpha.png in Resources */,
 				B52CFF2D1A72E006007C9E3F /* GameScene.sks in Resources */,
 				B52CFF341A72E006007C9E3F /* Main.storyboard in Resources */,
 				B52CFF531A730931007C9E3F /* SplashScene.sks in Resources */,

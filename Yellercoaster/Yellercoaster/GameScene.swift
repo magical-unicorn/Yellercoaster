@@ -34,9 +34,13 @@ class GameScene: SKScene {
         let world = self.childNodeWithName("world")!
         if let ground = world.childNodeWithName("ground") {
             if (self.groundBuilt - self.avancement - 1100.0 <= 0.0) {
-                let bezier = self.getBezier(250.0)
+                let bHeight = 1 + arc4random() % 500
+                let bezier = self.getBezier(Double(bHeight))
                 let shape = SKShapeNode(path: bezier.CGPath)
-                shape.fillColor = SKColor.redColor()
+                shape.fillColor = SKColor.whiteColor()
+                //let texture = SKTexture(imageNamed: "alpha.png")!
+                //shape.fillTexture = texture
+                shape.setTiledFillTexture("alpha", tileSize: CGSize(width: 32.0, height: 32.0))
                 shape.strokeColor = SKColor.blackColor()
                 shape.position = CGPoint(x: self.groundBuilt, y: 0.0)
                 shape.xScale = 1.0
@@ -128,7 +132,21 @@ class GameScene: SKScene {
 }
 
 
-
+extension SKShapeNode {
+    func setTiledFillTexture(imageName: String, tileSize: CGSize) {
+        let targetDimension = max(self.frame.size.width, self.frame.size.height)
+        let targetSize = CGSizeMake(targetDimension, targetDimension)
+        let targetRef = UIImage(named: imageName)!.CGImage
+        
+        UIGraphicsBeginImageContext(targetSize)
+        let contextRef = UIGraphicsGetCurrentContext()
+        CGContextDrawTiledImage(contextRef, CGRect(origin: CGPointZero, size: tileSize), targetRef)
+        let tiledTexture = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        self.fillTexture = SKTexture(image: tiledTexture)
+    }
+}
 
 
 
