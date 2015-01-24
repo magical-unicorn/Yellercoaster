@@ -29,6 +29,7 @@ extension SKNode {
 class GameViewController: UIViewController, AVAudioRecorderDelegate {
 
     var recorder: AVAudioRecorder?
+    var audioPlayer: AVAudioPlayer?
     var lowPassResults:Double = 0.0
     
     override func viewDidLoad() {
@@ -60,6 +61,12 @@ class GameViewController: UIViewController, AVAudioRecorderDelegate {
             let levelTimer = NSTimer.scheduledTimerWithTimeInterval(0.03, target: self, selector: "level", userInfo: nil, repeats: true)
         }
 
+        //var song = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("livingdead", ofType: "mp3")!)
+        //var error2:NSError?
+        //self.audioPlayer = AVAudioPlayer(contentsOfURL: song, error: &error2)
+        //self.audioPlayer?.prepareToPlay()
+        //self.audioPlayer?.play()
+        
         if let scene = SplashScene.unarchiveFromFile("SplashScene") as? SplashScene {
             // Configure the view.
             let skView = self.view as SKView
@@ -101,9 +108,9 @@ class GameViewController: UIViewController, AVAudioRecorderDelegate {
 
     override func supportedInterfaceOrientations() -> Int {
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
+            return Int(UIInterfaceOrientationMask.Landscape.rawValue)
         } else {
-            return Int(UIInterfaceOrientationMask.All.rawValue)
+            return Int(UIInterfaceOrientationMask.Landscape.rawValue)
         }
     }
 
