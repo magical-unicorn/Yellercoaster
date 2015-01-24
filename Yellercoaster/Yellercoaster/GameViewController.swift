@@ -78,11 +78,18 @@ class GameViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
+    func sinusite(x: Double) -> Double {
+        return sin(x*M_PI/2.0)
+    }
+    func megasinusite(x: Double) -> Double {
+        return sinusite(sinusite(sinusite(x)))
+    }
+    
     func level() {
         self.recorder?.updateMeters()
-        let ALPHA = 0.10
-        let peakPowerForChannel = pow(10, ALPHA * Double(self.recorder!.averagePowerForChannel(0)))
-        self.lowPassResults = ALPHA * peakPowerForChannel + (1.0 - ALPHA) * self.lowPassResults
+        let ALPHA = 0.09
+        let averagePowerForChannel = self.megasinusite(M_PI * pow(10, ALPHA * Double(self.recorder!.averagePowerForChannel(0))))
+        self.lowPassResults = ALPHA * averagePowerForChannel + (1.0 - ALPHA) * self.lowPassResults
         // NSLog("Average input: %f Peak input: %f Low pass results: %f", self.recorder!.averagePowerForChannel(0), self.recorder!.peakPowerForChannel(0), lowPassResults)
         let app = UIApplication.sharedApplication().delegate as AppDelegate
         app.audioLevel = self.lowPassResults

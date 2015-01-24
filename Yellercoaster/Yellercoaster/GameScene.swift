@@ -96,9 +96,13 @@ class GameScene: SKScene {
         // wagon.physicsBody?.applyImpulse(CGVector(dx: 300.0 - Double(wPos.x), dy: 0.0))
         
         let xDiff = CGFloat(20.0*level)
-        wagon.physicsBody?.applyForce(CGVector(dx: 300.0 * xDiff, dy: 0.0))
+        wagon.physicsBody?.applyForce(CGVector(dx: 140.0 * xDiff, dy: 0.0))
         // ground.position = CGPoint(x: ground.position.x - xDiff, y: ground.position.y)
         self.avancement = Double(wagon.position.x)
+        
+        let jauge = self.childNodeWithName("jauge") as SKSpriteNode
+        let jaugeBG = self.childNodeWithName("jaugeBG") as SKSpriteNode
+        jauge.size.height = jaugeBG.size.height * CGFloat(level)
     }
     
     override func didFinishUpdate() {
@@ -119,13 +123,6 @@ class GameScene: SKScene {
         path.moveToPoint(CGPoint(x: 400.0, y: 0.0))
         path.addCurveToPoint(CGPoint(x: 200.0, y: ySize), controlPoint1: CGPoint(x: 320.0, y: 0.0), controlPoint2: CGPoint(x: 280.0, y: ySize))
         path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 120.0, y: ySize), controlPoint2: CGPoint(x: 80.0, y: 0.0))
-        return path
-    }
-    func getBezierOld(ySize: Double) -> UIBezierPath {
-        let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: 0.0, y: 0.0))
-        path.addCurveToPoint(CGPoint(x: 200.0, y: ySize), controlPoint1: CGPoint(x: 80.0, y: 0.0), controlPoint2: CGPoint(x: 120.0, y: ySize))
-        path.addCurveToPoint(CGPoint(x: 400.0, y: 0.0), controlPoint1: CGPoint(x: 280.0, y: ySize), controlPoint2: CGPoint(x: 320.0, y: 0.0))
         return path
     }
 }
