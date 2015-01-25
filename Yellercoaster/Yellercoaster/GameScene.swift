@@ -17,16 +17,27 @@ class GameScene: SKScene {
 	let patternWidth:CGFloat = 400.0
 	var currentPattern:CGFloat = -1.0;
 	var currentJoint:SKPhysicsJointLimit?;
+	var wagons = 6;
+	var wagon:SKNode?;
+	var wagon1:SKNode?;
+	var wagon2:SKNode?;
+	var wagon3:SKNode?;
+	var wagon4:SKNode?;
+	var wagon5:SKNode?;
+	var joint1:SKPhysicsJointSpring?;
+	var joint2:SKPhysicsJointSpring?;
+	var joint3:SKPhysicsJointSpring?;
+	var joint4:SKPhysicsJointSpring?;
+	var joint5:SKPhysicsJointSpring?;
+	var lastSpeeds = [CGFloat](count:10, repeatedValue: 0.0);
+	let numLastSpeeds = 10;
+	var idxLastSpeeds = 0;
+	var initSpeeds = false;
+	var meanSpeed:CGFloat = 0.0;
+	
+
 	
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        
-//        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-//        myLabel.text = "Hello, World!";
-//        myLabel.fontSize = 65;
-//        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
-//        
-//        self.addChild(myLabel)
         let world = self.childNodeWithName("world")!
 
         let ground = SKNode()
@@ -34,27 +45,84 @@ class GameScene: SKScene {
         world.addChild(ground)
         self.buildGroundIfNeeded()
 		
-		let wagon = world.childNodeWithName("wagon")!
-		let wagon1 = world.childNodeWithName("wagon1")!
-		let wagon2 = world.childNodeWithName("wagon2")!
-		let wagon3 = world.childNodeWithName("wagon3")!
-		let wagon4 = world.childNodeWithName("wagon4")!
-		let wagon5 = world.childNodeWithName("wagon5")!
+		wagon = world.childNodeWithName("wagon")!
+		wagon1 = world.childNodeWithName("wagon1")!
+		wagon2 = world.childNodeWithName("wagon2")!
+		wagon3 = world.childNodeWithName("wagon3")!
+		wagon4 = world.childNodeWithName("wagon4")!
+		wagon5 = world.childNodeWithName("wagon5")!
 
-		let joint1: SKPhysicsJointSpring = SKPhysicsJointSpring.jointWithBodyA(wagon.physicsBody, bodyB: wagon1.physicsBody, anchorA: wagon.position, anchorB: wagon1.position)
-		self.physicsWorld.addJoint(joint1)
-		let joint2: SKPhysicsJointSpring = SKPhysicsJointSpring.jointWithBodyA(wagon1.physicsBody, bodyB: wagon2.physicsBody, anchorA: wagon1.position, anchorB: wagon2.position)
-		self.physicsWorld.addJoint(joint2)
-		let joint3: SKPhysicsJointSpring = SKPhysicsJointSpring.jointWithBodyA(wagon2.physicsBody, bodyB: wagon3.physicsBody, anchorA: wagon2.position, anchorB: wagon3.position)
-		self.physicsWorld.addJoint(joint3)
-		let joint4: SKPhysicsJointSpring = SKPhysicsJointSpring.jointWithBodyA(wagon3.physicsBody, bodyB: wagon4.physicsBody, anchorA: wagon3.position, anchorB: wagon4.position)
-		self.physicsWorld.addJoint(joint4)
-		let joint5: SKPhysicsJointSpring = SKPhysicsJointSpring.jointWithBodyA(wagon4.physicsBody, bodyB: wagon5.physicsBody, anchorA: wagon4.position, anchorB: wagon5.position)
-		self.physicsWorld.addJoint(joint5)
+		joint1 = SKPhysicsJointSpring.jointWithBodyA(wagon!.physicsBody, bodyB: wagon1!.physicsBody, anchorA: wagon!.position, anchorB: wagon1!.position)
+		self.physicsWorld.addJoint(joint1!)
+		joint2 = SKPhysicsJointSpring.jointWithBodyA(wagon1!.physicsBody, bodyB: wagon2!.physicsBody, anchorA: wagon1!.position, anchorB: wagon2!.position)
+		self.physicsWorld.addJoint(joint2!)
+		joint3 = SKPhysicsJointSpring.jointWithBodyA(wagon2!.physicsBody, bodyB: wagon3!.physicsBody, anchorA: wagon2!.position, anchorB: wagon3!.position)
+		self.physicsWorld.addJoint(joint3!)
+		joint4 = SKPhysicsJointSpring.jointWithBodyA(wagon3!.physicsBody, bodyB: wagon4!.physicsBody, anchorA: wagon3!.position, anchorB: wagon4!.position)
+		self.physicsWorld.addJoint(joint4!)
+		joint5 = SKPhysicsJointSpring.jointWithBodyA(wagon4!.physicsBody, bodyB: wagon5!.physicsBody, anchorA: wagon4!.position, anchorB: wagon5!.position)
+		self.physicsWorld.addJoint(joint5!)
+
 		
 		
+		var TimeoutWait = SKAction.waitForDuration(60.0)
+		var TimeoutRun = SKAction.runBlock {
+			self.findepartie("Temps écoulé")
+		}
+		world.runAction(SKAction.sequence([TimeoutWait, TimeoutRun]))
+		var UpdateSpeedWait = SKAction.waitForDuration(0.2)
+		var UpdateSpeedRun = SKAction.runBlock {
+			// update last speeds array
+			self.lastSpeeds[self.idxLastSpeeds] = self.getSpeed()
+			self.idxLastSpeeds = (self.idxLastSpeeds + 1) % self.numLastSpeeds;
+			if self.idxLastSpeeds == 9 {
+				self.initSpeeds = true
+			}
+			// compute mean
+			for speed in self.lastSpeeds {
+				self.meanSpeed +=  (speed);
+			}
+			self.meanSpeed = self.meanSpeed / CGFloat (self.numLastSpeeds);
+			
+		}
+
+		world.runAction(SKAction.repeatActionForever(SKAction.sequence([UpdateSpeedWait, UpdateSpeedRun])))
+		
+		var CheckSpeedWait = SKAction.waitForDuration(4.0)
+		var CheckSpeedRun = SKAction.runBlock {
+			if self.initSpeeds {
+				if self.meanSpeed < 2500 {
+					self.larguer1wagon();
+				}
+			}
+		}
+		
+		world.runAction(SKAction.repeatActionForever(SKAction.sequence([CheckSpeedWait, CheckSpeedRun])))
     }
-    
+	
+
+	func larguer1wagon() {
+		println("largage wagon \(wagons)")
+		if wagons == 6 {
+			self.physicsWorld.removeJoint(joint5!)
+		} else if wagons == 5 {
+			self.physicsWorld.removeJoint(joint4!)
+		} else if wagons == 4 {
+			self.physicsWorld.removeJoint(joint3!)
+		} else if wagons == 3 {
+			self.physicsWorld.removeJoint(joint2!)
+		} else if wagons == 2 {
+			self.physicsWorld.removeJoint(joint1!)
+		} else {
+			self.findepartie("Plus de wagon !")
+		}
+		wagons--;
+	}
+	
+	func findepartie(s: String) {
+		println("perdu!" + s)
+	}
+	
     func buildGroundIfNeeded() {
 
         let world = self.childNodeWithName("world")!
@@ -110,6 +178,14 @@ class GameScene: SKScene {
 //            self.addChild(sprite)
         }
     }
+	
+	func getSpeed() -> CGFloat {
+		let world = self.childNodeWithName("world")!
+		let wagon = world.childNodeWithName("wagon")!
+		let vv = wagon.physicsBody?.velocity;
+		var squaredVelocity: CGFloat = vv!.dx * vv!.dx + vv!.dy * vv!.dy;
+		return squaredVelocity;
+	}
    
     override func update(currentTime: CFTimeInterval) {
 		/* Called before each frame is rendered */
