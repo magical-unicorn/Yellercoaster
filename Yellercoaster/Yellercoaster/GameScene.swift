@@ -137,6 +137,17 @@ class GameScene: SKScene {
 	}
 	
 	func findepartie(s: String) {
+		let app = UIApplication.sharedApplication().delegate as AppDelegate
+		let world = self.childNodeWithName("world")!
+		wagon = world.childNodeWithName("wagon")!
+
+		app.distance = Int(Double(wagon!.position.x))
+		app.score = app.distance*3 ;
+		app.message = s;
+		
+		if let scene = ScoreScene.unarchiveFromFile("ScoreScene") as? ScoreScene {
+			self.view?.presentScene(scene, transition: SKTransition.flipVerticalWithDuration(0.6))
+		}
 		println("perdu!" + s)
 	}
 	
