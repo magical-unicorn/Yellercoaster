@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3242BA801A74229300177EA9 /* StreamCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242BA7F1A74229300177EA9 /* StreamCapture.swift */; };
+		3242BA821A74FE8800177EA9 /* ScoreScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3242BA811A74FE8800177EA9 /* ScoreScene.sks */; };
+		3242BA841A74FEA200177EA9 /* ScoreScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242BA831A74FEA200177EA9 /* ScoreScene.swift */; };
 		3273740C1A73B86A0002636D /* UIBezierPath+Rob_points.m in Sources */ = {isa = PBXBuildFile; fileRef = 327374061A73B86A0002636D /* UIBezierPath+Rob_points.m */; };
 		3273740E1A73B86A0002636D /* UIBezierPath+Rob_forEach.m in Sources */ = {isa = PBXBuildFile; fileRef = 327374091A73B86A0002636D /* UIBezierPath+Rob_forEach.m */; };
 		3273740F1A73B86A0002636D /* UIBezierPath+Rob_dash.m in Sources */ = {isa = PBXBuildFile; fileRef = 3273740B1A73B86A0002636D /* UIBezierPath+Rob_dash.m */; };
@@ -38,6 +40,8 @@
 
 /* Begin PBXFileReference section */
 		3242BA7F1A74229300177EA9 /* StreamCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamCapture.swift; sourceTree = "<group>"; };
+		3242BA811A74FE8800177EA9 /* ScoreScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ScoreScene.sks; sourceTree = "<group>"; };
+		3242BA831A74FEA200177EA9 /* ScoreScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreScene.swift; sourceTree = "<group>"; };
 		327374011A73B28D0002636D /* Yellercoaster-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Yellercoaster-Bridging-Header.h"; sourceTree = "<group>"; };
 		327374051A73B86A0002636D /* UIBezierPath+Rob_points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+Rob_points.h"; sourceTree = "<group>"; };
 		327374061A73B86A0002636D /* UIBezierPath+Rob_points.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+Rob_points.m"; sourceTree = "<group>"; };
@@ -122,6 +126,8 @@
 				B52CFF2A1A72E006007C9E3F /* AppDelegate.swift */,
 				B52CFF2C1A72E006007C9E3F /* GameScene.sks */,
 				B52CFF2E1A72E006007C9E3F /* GameScene.swift */,
+				3242BA811A74FE8800177EA9 /* ScoreScene.sks */,
+				3242BA831A74FEA200177EA9 /* ScoreScene.swift */,
 				B52CFF521A730931007C9E3F /* SplashScene.sks */,
 				B52CFF541A73094C007C9E3F /* SplashScene.swift */,
 				B52CFF301A72E006007C9E3F /* GameViewController.swift */,
@@ -256,6 +262,7 @@
 				B52CFF2D1A72E006007C9E3F /* GameScene.sks in Resources */,
 				B52CFF341A72E006007C9E3F /* Main.storyboard in Resources */,
 				B52CFF531A730931007C9E3F /* SplashScene.sks in Resources */,
+				3242BA821A74FE8800177EA9 /* ScoreScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +289,7 @@
 				3242BA801A74229300177EA9 /* StreamCapture.swift in Sources */,
 				3273740E1A73B86A0002636D /* UIBezierPath+Rob_forEach.m in Sources */,
 				B52CFF2B1A72E006007C9E3F /* AppDelegate.swift in Sources */,
+				3242BA841A74FEA200177EA9 /* ScoreScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
