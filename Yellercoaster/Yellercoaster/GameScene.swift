@@ -15,7 +15,8 @@ class GameScene: SKScene {
 	var maxVelocity : CGFloat = 750.0
     var previousVelocity : CGFloat = 0.0
     var groundItems = [SKNode]()
-	let patternWidth:CGFloat = 400.0
+	let patternWidth:CGFloat = 540.0
+    var wagons = [SKNode]()
 	
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -32,6 +33,32 @@ class GameScene: SKScene {
         ground.name = "ground"
         world.addChild(ground)
         self.buildGroundIfNeeded()
+        
+        
+        let wagon = world.childNodeWithName("wagon")!
+        let wagon1 = world.childNodeWithName("wagon1")!
+        let wagon2 = world.childNodeWithName("wagon2")!
+        let wagon3 = world.childNodeWithName("wagon3")!
+        let wagon4 = world.childNodeWithName("wagon4")!
+        let wagon5 = world.childNodeWithName("wagon5")!
+        
+        let joint1: SKPhysicsJointSpring = SKPhysicsJointSpring.jointWithBodyA(wagon.physicsBody, bodyB: wagon1.physicsBody, anchorA: wagon.position, anchorB: wagon1.position)
+        self.physicsWorld.addJoint(joint1)
+        let joint2: SKPhysicsJointSpring = SKPhysicsJointSpring.jointWithBodyA(wagon1.physicsBody, bodyB: wagon2.physicsBody, anchorA: wagon1.position, anchorB: wagon2.position)
+        self.physicsWorld.addJoint(joint2)
+        let joint3: SKPhysicsJointSpring = SKPhysicsJointSpring.jointWithBodyA(wagon2.physicsBody, bodyB: wagon3.physicsBody, anchorA: wagon2.position, anchorB: wagon3.position)
+        self.physicsWorld.addJoint(joint3)
+        let joint4: SKPhysicsJointSpring = SKPhysicsJointSpring.jointWithBodyA(wagon3.physicsBody, bodyB: wagon4.physicsBody, anchorA: wagon3.position, anchorB: wagon4.position)
+        self.physicsWorld.addJoint(joint4)
+        let joint5: SKPhysicsJointSpring = SKPhysicsJointSpring.jointWithBodyA(wagon4.physicsBody, bodyB: wagon5.physicsBody, anchorA: wagon4.position, anchorB: wagon5.position)
+        self.physicsWorld.addJoint(joint5)
+        
+        wagons.append(wagon)
+        wagons.append(wagon1)
+        wagons.append(wagon2)
+        wagons.append(wagon3)
+        wagons.append(wagon4)
+        wagons.append(wagon5)
     }
     
     func buildGroundIfNeeded() {
@@ -39,7 +66,7 @@ class GameScene: SKScene {
         if let ground = world.childNodeWithName("ground") {
             if (self.groundBuilt - self.avancement - 1100.0 <= 0.0) {
                 let bHeight = 1 + arc4random() % 500
-                let bezier = self.getBezier(Double(bHeight))
+                let bezier = self.getBezier(Double(patternWidth),ySize: Double(bHeight))
                 let shape = SKShapeNode(path: bezier.CGPath)
                 shape.fillColor = SKColor.whiteColor()
                 //let texture = SKTexture(imageNamed: "alpha.png")!
@@ -157,24 +184,66 @@ class GameScene: SKScene {
         let jaugeBG = self.childNodeWithName("jaugeBG") as SKSpriteNode
         jauge.size.height = jaugeBG.size.height * CGFloat(level)
         
+        for voiture in wagons {
+            if (voiture.name != "wagon") {
+                self.centripeteTaMere(voiture)
+            }
+        }
+    }
+    
+    func centripeteTaMere(wagonnet: SKNode) {
+        let wPos = wagonnet.position
+        
+        let xDiff = CGFloat(32.0*0.25)
+        
+        let tangent = getTangentVector(wagonnet.position.x, factor: xDiff);
+        var tangentNorm = sqrt((tangent.dx * tangent.dx) + (tangent.dy * tangent.dy))
+        
+        let vv = wagonnet.physicsBody?.velocity;
+        
+        let mass = wagonnet.physicsBody?.mass;
+        let nimpCoef: CGFloat = 1.0;
+        
+        var squaredVelocity: CGFloat = vv!.dx * vv!.dx + vv!.dy * vv!.dy;
+        
+        if (squaredVelocity < maxVelocity * maxVelocity) {
+            var sign: CGFloat = 1.0;
+            if (tangent.dy > 0) {
+                sign = 1.0;
+            } else {
+                sign = -1.0;
+            }
+            var ortho = CGVector(dx: sign * nimpCoef * mass! * squaredVelocity, dy: -(tangent.dx * sign * mass! * squaredVelocity * nimpCoef / tangent.dy))
+            // println("ortho \(ortho.dx) \(ortho.dy)");
+            var orthoNorm = sqrt((ortho.dx * ortho.dx) + (ortho.dy * ortho.dy))
+            if (orthoNorm > 0.000001) {
+                ortho.dx = ortho.dx / orthoNorm * tangentNorm;
+                ortho.dy = ortho.dy / orthoNorm * tangentNorm;
+            }
+            
+            var scalar = tangent.dx * ortho.dx + tangent.dy * ortho.dy
+            
+            wagonnet.physicsBody?.applyForce(CGVector(dx: ortho.dx * 2.5, dy: ortho.dy * 2.9))
+        }
     }
     
     override func didFinishUpdate() {
         let world = self.childNodeWithName("world")
         let wagon = world?.childNodeWithName("wagon")
         let velocity = pow(wagon!.physicsBody!.velocity.dx,2.0) + pow(wagon!.physicsBody!.velocity.dy,2.0)
-        if (velocity > 2.2) {
-            // wagon!.zRotation = CGFloat(M_PI_2) - atan2((wagon!.physicsBody!.velocity.dx), (wagon!.physicsBody!.velocity.dy))
-            wagon!.zRotation = self.angleOfVector(wagon!.physicsBody!.velocity)
-            
-        } else {
-            // wagon!.zRotation = CGFloat(0.0)
+//        if (velocity > 2.2) {
+//            wagon!.zRotation = self.angleOfVector(wagon!.physicsBody!.velocity)
+//        }
+        
+        for item in wagons {
+            self.orientWagon(item)
         }
 
         // tentative de zoom en fonction de la vélocité
         let prevVelo = previousVelocity
         previousVelocity = velocity
-        let filteredVelocity = 0.01 * velocity + 0.99 * prevVelo
+        let filteredVelocity = 0.08 * velocity + 0.92 * prevVelo
+        previousVelocity = filteredVelocity
         var scale: CGFloat = 0.9 + filteredVelocity * 0.0000020
         if (scale > 2.15) {
             scale = 2.15
@@ -182,6 +251,17 @@ class GameScene: SKScene {
         world?.xScale = scale
         world?.yScale = scale
         self.centerOnNode(self.childNodeWithName("world")!.childNodeWithName("wagon"))
+    }
+    
+    func orientWagon(wag: SKNode) {
+        let velocity = pow(wag.physicsBody!.velocity.dx,2.0) + pow(wag.physicsBody!.velocity.dy,2.0)
+        if (velocity > 2.2) {
+            var direction = wag.physicsBody!.velocity
+            if (direction.dx < 0) {
+                direction.dx *= -1
+            }
+            wag.zRotation = self.angleOfVector(direction)
+        }
     }
     
     func centerOnNode(node: SKNode?) {
@@ -193,11 +273,12 @@ class GameScene: SKScene {
         }
     }
     
-    func getBezier(ySize: Double) -> UIBezierPath {
+    func getBezier(xSize: Double, ySize: Double) -> UIBezierPath {
         let path = UIBezierPath()
+        let factor = xSize / 400.0
         path.moveToPoint(CGPoint(x: patternWidth, y: 0.0))
-        path.addCurveToPoint(CGPoint(x: 200.0, y: ySize), controlPoint1: CGPoint(x: 320.0, y: 0.0), controlPoint2: CGPoint(x: 280.0, y: ySize))
-        path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 120.0, y: ySize), controlPoint2: CGPoint(x: 80.0, y: 0.0))
+        path.addCurveToPoint(CGPoint(x: 200.0 * factor, y: ySize), controlPoint1: CGPoint(x: 320.0 * factor, y: 0.0), controlPoint2: CGPoint(x: 280.0 * factor, y: ySize))
+        path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 120.0 * factor, y: ySize), controlPoint2: CGPoint(x: 80.0 * factor, y: 0.0))
         return path
     }
 
@@ -236,13 +317,23 @@ class GameScene: SKScene {
 		for couple in mespoints as [AnyObject]{
 			let c = couple as [NSNumber]
 			// println("couple \(c[0]) \(c[1])")
-			if CGFloat(c[0]) < (x - nxtNode!.position.x + patternWidth) {
-				//
-				leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
-				rightPoint = CGPoint(x: CGFloat (prevCouple[0]), y: CGFloat (prevCouple[1]))
+            
+            if let unwrappedNxtNode = nxtNode {
+                if CGFloat(c[0]) < (x - unwrappedNxtNode.position.x + patternWidth) {
+                    //
+                    leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
+                    rightPoint = CGPoint(x: CGFloat (prevCouple[0]), y: CGFloat (prevCouple[1]))
+                    foundPoints = true
+                    break;
+                }
+            } else {
+                leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
+                rightPoint = CGPoint(x: CGFloat (c[0])+3.0, y: CGFloat(c[1]))
                 foundPoints = true
-				break;
-			}
+                break;
+            }
+            
+			
 			prevCouple = c;
 		}
         if (!foundPoints) {
