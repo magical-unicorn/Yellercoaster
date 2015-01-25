@@ -12,6 +12,9 @@
 		3242BA801A74229300177EA9 /* StreamCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242BA7F1A74229300177EA9 /* StreamCapture.swift */; };
 		3242BA821A74FE8800177EA9 /* ScoreScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3242BA811A74FE8800177EA9 /* ScoreScene.sks */; };
 		3242BA841A74FEA200177EA9 /* ScoreScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242BA831A74FEA200177EA9 /* ScoreScene.swift */; };
+		32736C5E1A75402E0064D9C2 /* II.aifc in Resources */ = {isa = PBXBuildFile; fileRef = 32736C5B1A75402D0064D9C2 /* II.aifc */; };
+		32736C5F1A75402E0064D9C2 /* intro.aifc in Resources */ = {isa = PBXBuildFile; fileRef = 32736C5C1A75402E0064D9C2 /* intro.aifc */; };
+		32736C601A75402E0064D9C2 /* mort.aifc in Resources */ = {isa = PBXBuildFile; fileRef = 32736C5D1A75402E0064D9C2 /* mort.aifc */; };
 		3273740C1A73B86A0002636D /* UIBezierPath+Rob_points.m in Sources */ = {isa = PBXBuildFile; fileRef = 327374061A73B86A0002636D /* UIBezierPath+Rob_points.m */; };
 		3273740E1A73B86A0002636D /* UIBezierPath+Rob_forEach.m in Sources */ = {isa = PBXBuildFile; fileRef = 327374091A73B86A0002636D /* UIBezierPath+Rob_forEach.m */; };
 		3273740F1A73B86A0002636D /* UIBezierPath+Rob_dash.m in Sources */ = {isa = PBXBuildFile; fileRef = 3273740B1A73B86A0002636D /* UIBezierPath+Rob_dash.m */; };
@@ -46,6 +49,9 @@
 		3242BA7F1A74229300177EA9 /* StreamCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamCapture.swift; sourceTree = "<group>"; };
 		3242BA811A74FE8800177EA9 /* ScoreScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ScoreScene.sks; sourceTree = "<group>"; };
 		3242BA831A74FEA200177EA9 /* ScoreScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreScene.swift; sourceTree = "<group>"; };
+		32736C5B1A75402D0064D9C2 /* II.aifc */ = {isa = PBXFileReference; lastKnownFileType = file; path = II.aifc; sourceTree = "<group>"; };
+		32736C5C1A75402E0064D9C2 /* intro.aifc */ = {isa = PBXFileReference; lastKnownFileType = file; path = intro.aifc; sourceTree = "<group>"; };
+		32736C5D1A75402E0064D9C2 /* mort.aifc */ = {isa = PBXFileReference; lastKnownFileType = file; path = mort.aifc; sourceTree = "<group>"; };
 		327374011A73B28D0002636D /* Yellercoaster-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Yellercoaster-Bridging-Header.h"; sourceTree = "<group>"; };
 		327374051A73B86A0002636D /* UIBezierPath+Rob_points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+Rob_points.h"; sourceTree = "<group>"; };
 		327374061A73B86A0002636D /* UIBezierPath+Rob_points.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+Rob_points.m"; sourceTree = "<group>"; };
@@ -127,6 +133,9 @@
 		B52CFF271A72E006007C9E3F /* Yellercoaster */ = {
 			isa = PBXGroup;
 			children = (
+				32736C5B1A75402D0064D9C2 /* II.aifc */,
+				32736C5C1A75402E0064D9C2 /* intro.aifc */,
+				32736C5D1A75402E0064D9C2 /* mort.aifc */,
 				B52CFF2A1A72E006007C9E3F /* AppDelegate.swift */,
 				B52CFF2C1A72E006007C9E3F /* GameScene.sks */,
 				B52CFF2E1A72E006007C9E3F /* GameScene.swift */,
@@ -263,6 +272,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32736C5E1A75402E0064D9C2 /* II.aifc in Resources */,
 				B52CFF391A72E006007C9E3F /* LaunchScreen.xib in Resources */,
 				B5C5B4FC1A752CE70013DBD3 /* Images.xcassets in Resources */,
 				B52CFF591A73D401007C9E3F /* alpha.png in Resources */,
@@ -270,7 +280,9 @@
 				2119E8E11A74712300D1197A /* CreditScene.sks in Resources */,
 				B52CFF341A72E006007C9E3F /* Main.storyboard in Resources */,
 				B52CFF531A730931007C9E3F /* SplashScene.sks in Resources */,
+				32736C601A75402E0064D9C2 /* mort.aifc in Resources */,
 				3242BA821A74FE8800177EA9 /* ScoreScene.sks in Resources */,
+				32736C5F1A75402E0064D9C2 /* intro.aifc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
