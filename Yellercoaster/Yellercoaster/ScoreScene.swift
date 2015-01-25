@@ -16,8 +16,8 @@ class ScoreScene: SKScene {
 		let distance = self.childNodeWithName("Distance")! as SKLabelNode
 		
 		let app = UIApplication.sharedApplication().delegate as AppDelegate
-		score.text = String(app.score)
-		distance.text = String(app.distance)
+		score.text = "SCORE: " + String(app.score)
+		distance.text = "DISTANCE: "+String(app.distance)
 		message.text = app.message
 		
 	}

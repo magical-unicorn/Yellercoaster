@@ -85,7 +85,7 @@ class GameScene: SKScene {
 		
 		var TimeoutWait = SKAction.waitForDuration(60.0)
 		var TimeoutRun = SKAction.runBlock {
-			self.findepartie("Temps écoulé")
+			self.findepartie("TIME IS UP!")
 		}
 		world.runAction(SKAction.sequence([TimeoutWait, TimeoutRun]))
 		var UpdateSpeedWait = SKAction.waitForDuration(0.2)
@@ -101,6 +101,11 @@ class GameScene: SKScene {
 				self.meanSpeed +=  (speed);
 			}
 			self.meanSpeed = self.meanSpeed / CGFloat (self.numLastSpeeds);
+			
+			// fin du jeu si tombé dans un trou
+			if self.wagon!.position.y < -130.0 {
+				self.findepartie("TRAIN CRASH!")
+			}
 			
 		}
 
@@ -132,7 +137,7 @@ class GameScene: SKScene {
 		} else if wagonsNumber == 2 {
 			self.physicsWorld.removeJoint(joint1!)
 		} else {
-			self.findepartie("Plus de wagon !")
+			self.findepartie("NO MORE WAGON LEFT!")
 		}
 		wagonsNumber--;
 	}
@@ -148,8 +153,11 @@ class GameScene: SKScene {
 		
 		if let scene = ScoreScene.unarchiveFromFile("ScoreScene") as? ScoreScene {
 			self.view?.presentScene(scene, transition: SKTransition.flipVerticalWithDuration(0.6))
+		} else {
+			println("bug")
+			
 		}
-		println("perdu!" + s)
+		println("fin de partie: " + s)
 	}
 	
     func buildGroundIfNeeded() {
@@ -374,6 +382,9 @@ class GameScene: SKScene {
         world?.xScale = scale
         world?.yScale = scale
         self.centerOnNode(self.childNodeWithName("world")!.childNodeWithName("wagon"))
+		
+
+		
     }
     
     func orientWagon(wag: SKNode) {
