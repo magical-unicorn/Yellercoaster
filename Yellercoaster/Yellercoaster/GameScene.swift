@@ -39,6 +39,55 @@ class GameScene: SKScene {
 	var meanSpeed:CGFloat = 0.0;
     var bgSprite : SKSpriteNode?
 
+    func createWagons(container: SKNode) {
+        let world = self.childNodeWithName("world")!
+        let wag = world.childNodeWithName("wagon")! as SKSpriteNode
+        let wag1 = world.childNodeWithName("wagon1")! as SKSpriteNode
+        let wag2 = world.childNodeWithName("wagon2")! as SKSpriteNode
+        let wag3 = world.childNodeWithName("wagon3")! as SKSpriteNode
+        let wag4 = world.childNodeWithName("wagon4")! as SKSpriteNode
+        let wag5 = world.childNodeWithName("wagon5")! as SKSpriteNode
+        
+        wag.color = SKColor.clearColor()
+        wag1.color = SKColor.clearColor()
+        wag2.color = SKColor.clearColor()
+        wag3.color = SKColor.clearColor()
+        wag4.color = SKColor.clearColor()
+        wag5.color = SKColor.clearColor()
+        
+        wag.texture = SKTexture(imageNamed: "Alain")
+        wag1.texture = SKTexture(imageNamed: "thiba")
+        wag2.texture = SKTexture(imageNamed: "chris")
+        wag3.texture = SKTexture(imageNamed: "Laurence")
+        wag4.texture = SKTexture(imageNamed: "yohan")
+        wag5.texture = SKTexture(imageNamed: "Oli")
+    }
+    
+    func getWagonSprite(perso: String) -> SKSpriteNode {
+        let wagon = SKSpriteNode(imageNamed: perso)
+        if let dico = wagon.userData {
+            dico.setObject(perso, forKey: "perso")
+        } else {
+            wagon.userData = NSMutableDictionary()
+            wagon.userData?.setObject(perso, forKey: "perso")
+        }
+        let body = SKPhysicsBody(circleOfRadius: 20.0)
+        body.affectedByGravity = true
+        body.friction = 0.0
+        body.mass = 0.0089
+        
+        wagon.physicsBody = body
+        return wagon
+    }
+    
+    func avantDuWagon(wagon: SKNode) -> CGPoint {
+        let center = wagon.position
+        return CGPoint(x: center.x, y: center.y + 0.0)
+    }
+    func arriereDuWagon(wagon: SKNode) -> CGPoint {
+        let center = wagon.position
+        return CGPoint(x: center.x, y: center.y - 0.0)
+    }
 	
     override func didMoveToView(view: SKView) {
         let bg = SKSpriteNode(imageNamed: "background.png")
@@ -50,6 +99,8 @@ class GameScene: SKScene {
         self.addChild(bg)
         
         let world = self.childNodeWithName("world")!
+        
+        self.createWagons(world)
 
         let ground = SKNode()
         ground.name = "ground"
@@ -70,15 +121,16 @@ class GameScene: SKScene {
 		wagons.append(wagon4!)
 		wagons.append(wagon5!)
 
-		joint1 = SKPhysicsJointSpring.jointWithBodyA(wagon!.physicsBody, bodyB: wagon1!.physicsBody, anchorA: wagon!.position, anchorB: wagon1!.position)
+        
+		joint1 = SKPhysicsJointSpring.jointWithBodyA(wagon!.physicsBody, bodyB: wagon1!.physicsBody, anchorA: arriereDuWagon(wagon!), anchorB: avantDuWagon(wagon1!))
 		self.physicsWorld.addJoint(joint1!)
-		joint2 = SKPhysicsJointSpring.jointWithBodyA(wagon1!.physicsBody, bodyB: wagon2!.physicsBody, anchorA: wagon1!.position, anchorB: wagon2!.position)
+		joint2 = SKPhysicsJointSpring.jointWithBodyA(wagon1!.physicsBody, bodyB: wagon2!.physicsBody, anchorA: arriereDuWagon(wagon1!), anchorB: avantDuWagon(wagon2!))
 		self.physicsWorld.addJoint(joint2!)
-		joint3 = SKPhysicsJointSpring.jointWithBodyA(wagon2!.physicsBody, bodyB: wagon3!.physicsBody, anchorA: wagon2!.position, anchorB: wagon3!.position)
+		joint3 = SKPhysicsJointSpring.jointWithBodyA(wagon2!.physicsBody, bodyB: wagon3!.physicsBody, anchorA: arriereDuWagon(wagon2!), anchorB: avantDuWagon(wagon3!))
 		self.physicsWorld.addJoint(joint3!)
-		joint4 = SKPhysicsJointSpring.jointWithBodyA(wagon3!.physicsBody, bodyB: wagon4!.physicsBody, anchorA: wagon3!.position, anchorB: wagon4!.position)
+		joint4 = SKPhysicsJointSpring.jointWithBodyA(wagon3!.physicsBody, bodyB: wagon4!.physicsBody, anchorA: arriereDuWagon(wagon3!), anchorB: avantDuWagon(wagon4!))
 		self.physicsWorld.addJoint(joint4!)
-		joint5 = SKPhysicsJointSpring.jointWithBodyA(wagon4!.physicsBody, bodyB: wagon5!.physicsBody, anchorA: wagon4!.position, anchorB: wagon5!.position)
+		joint5 = SKPhysicsJointSpring.jointWithBodyA(wagon4!.physicsBody, bodyB: wagon5!.physicsBody, anchorA: arriereDuWagon(wagon4!), anchorB: avantDuWagon(wagon5!))
 		self.physicsWorld.addJoint(joint5!)
 
 		
@@ -389,7 +441,7 @@ class GameScene: SKScene {
     
     func orientWagon(wag: SKNode) {
         let velocity = pow(wag.physicsBody!.velocity.dx,2.0) + pow(wag.physicsBody!.velocity.dy,2.0)
-        if (velocity > 2.2) {
+        if (velocity > 5.2) {
             var direction = wag.physicsBody!.velocity
             if (direction.dx < 0) {
                 direction.dx *= -1
@@ -439,7 +491,7 @@ class GameScene: SKScene {
         path.addLineToPoint(CGPoint(x: 0.5 * patternWidth, y: 0.75 * betterY))
         path.addCurveToPoint(CGPoint(x: 0.35 * patternWidth, y: betterY), controlPoint1: CGPoint(x: 0.5 * patternWidth, y: 0.95 * betterY), controlPoint2: CGPoint(x: 0.46 * patternWidth, y: betterY))
         
-        path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 0.20 * patternWidth, y: CGFloat(ySize)), controlPoint2: CGPoint(x: 0.17 * patternWidth, y: 0.0))
+        path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 0.20 * patternWidth, y: betterY), controlPoint2: CGPoint(x: 0.17 * patternWidth, y: 0.0))
         
         path.addLineToPoint(CGPoint(x: 0.0, y: -400.0))
     
