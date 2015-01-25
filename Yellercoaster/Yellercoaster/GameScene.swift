@@ -13,6 +13,7 @@ class GameScene: SKScene {
     var avancement = 0.0
     var groundBuilt = 0.0
 	var maxVelocity : CGFloat = 750.0
+    var previousVelocity : CGFloat = 0.0
     var groundItems = [SKNode]()
 	let patternWidth:CGFloat = 400.0
 	var currentPattern:CGFloat = -1.0;
@@ -126,11 +127,10 @@ class GameScene: SKScene {
     func buildGroundIfNeeded() {
 
         let world = self.childNodeWithName("world")!
-		let wagon = world.childNodeWithName("wagon")!
         if let ground = world.childNodeWithName("ground") {
             if (self.groundBuilt - self.avancement - 1100.0 <= 0.0) {
                 let bHeight = 1 + arc4random() % 500
-                let bezier = self.getBezier(Double(bHeight))
+                let bezier = self.getBezier(Double(patternWidth),ySize: Double(bHeight))
                 let shape = SKShapeNode(path: bezier.CGPath)
                 shape.fillColor = SKColor.whiteColor()
                 //let texture = SKTexture(imageNamed: "alpha.png")!
@@ -204,12 +204,12 @@ class GameScene: SKScene {
         // wagon.physicsBody?.velocity.dx = 300.0 - wPos.x
         // wagon.physicsBody?.applyImpulse(CGVector(dx: 300.0 - Double(wPos.x), dy: 0.0))
         
-        let xDiff = CGFloat(20.0*level)
+        let xDiff = CGFloat(32.0*level)
 		// println("XDiff \(xDiff)")
         //wagon.physicsBody?.applyForce(CGVector(dx: 300.0 * xDiff, dy: 0.0))
 		let tangent = getTangentVector(wagon.position.x, factor: xDiff);
 		var tangentNorm = sqrt((tangent.dx * tangent.dx) + (tangent.dy * tangent.dy))
-		//println("tangent \(tangent.dx) \(tangent.dy) \(tangentNorm)");
+		// println("tangent \(tangent.dx) \(tangent.dy) \(tangentNorm)");
 
 		let vv = wagon.physicsBody?.velocity;
 		
@@ -225,7 +225,7 @@ class GameScene: SKScene {
 			} else {
 				sign = -1.0;
 			}
-			var ortho = CGVector(dx: sign * nimpCoef * mass! * squaredVelocity, dy: -(tangent.dx * mass! * squaredVelocity * nimpCoef / tangent.dy))
+			var ortho = CGVector(dx: sign * nimpCoef * mass! * squaredVelocity, dy: -(tangent.dx * sign * mass! * squaredVelocity * nimpCoef / tangent.dy))
 			// println("ortho \(ortho.dx) \(ortho.dy)");
 			var orthoNorm = sqrt((ortho.dx * ortho.dx) + (ortho.dy * ortho.dy))
 			if (orthoNorm > 0.000001) {
@@ -241,11 +241,12 @@ class GameScene: SKScene {
 			var scalar = tangent.dx * ortho.dx + tangent.dy * ortho.dy
 			// println("scalar\(scalar)")
 			
+            //wagon.physicsBody?.applyForce(CGVector(dx: ortho.dx * 2.5, dy: ortho.dy * 1.5))
 			
-			//var force = CGVector(dx: tangent.dx + ortho.dx, dy: tangent.dy + ortho.dy)
+			var force = CGVector(dx: tangent.dx + 1.7 * ortho.dx, dy: tangent.dy + 0.8 * ortho.dy)
 			//println("force \(force.dx) \(force.dy)")
 
-			wagon.physicsBody?.applyForce(tangent)
+			wagon.physicsBody?.applyForce(force)
 		} else {
 			//println("maxvelocity")
 		}
@@ -255,36 +256,102 @@ class GameScene: SKScene {
         let jauge = self.childNodeWithName("jauge") as SKSpriteNode
         let jaugeBG = self.childNodeWithName("jaugeBG") as SKSpriteNode
         jauge.size.height = jaugeBG.size.height * CGFloat(level)
+        
+        for voiture in wagons {
+            if (voiture.name != "wagon") {
+                self.centripeteTaMere(voiture)
+            }
+        }
+    }
+    
+    func centripeteTaMere(wagonnet: SKNode) {
+        let wPos = wagonnet.position
+        
+        let xDiff = CGFloat(32.0*0.25)
+        
+        let tangent = getTangentVector(wagonnet.position.x, factor: xDiff);
+        var tangentNorm = sqrt((tangent.dx * tangent.dx) + (tangent.dy * tangent.dy))
+        
+        let vv = wagonnet.physicsBody?.velocity;
+        
+        let mass = wagonnet.physicsBody?.mass;
+        let nimpCoef: CGFloat = 1.0;
+        
+        var squaredVelocity: CGFloat = vv!.dx * vv!.dx + vv!.dy * vv!.dy;
+        
+        if (squaredVelocity < maxVelocity * maxVelocity) {
+            var sign: CGFloat = 1.0;
+            if (tangent.dy > 0) {
+                sign = 1.0;
+            } else {
+                sign = -1.0;
+            }
+            var ortho = CGVector(dx: sign * nimpCoef * mass! * squaredVelocity, dy: -(tangent.dx * sign * mass! * squaredVelocity * nimpCoef / tangent.dy))
+            // println("ortho \(ortho.dx) \(ortho.dy)");
+            var orthoNorm = sqrt((ortho.dx * ortho.dx) + (ortho.dy * ortho.dy))
+            if (orthoNorm > 0.000001) {
+                ortho.dx = ortho.dx / orthoNorm * tangentNorm;
+                ortho.dy = ortho.dy / orthoNorm * tangentNorm;
+            }
+            
+            var scalar = tangent.dx * ortho.dx + tangent.dy * ortho.dy
+            
+            wagonnet.physicsBody?.applyForce(CGVector(dx: ortho.dx * 2.5, dy: ortho.dy * 2.9))
+        }
     }
     
     override func didFinishUpdate() {
         let world = self.childNodeWithName("world")
         let wagon = world?.childNodeWithName("wagon")
         let velocity = pow(wagon!.physicsBody!.velocity.dx,2.0) + pow(wagon!.physicsBody!.velocity.dy,2.0)
-        if (velocity > 2.2) {
-            // wagon!.zRotation = CGFloat(M_PI_2) - atan2((wagon!.physicsBody!.velocity.dx), (wagon!.physicsBody!.velocity.dy))
-            wagon!.zRotation = self.angleOfVector(wagon!.physicsBody!.velocity)
-            
-        } else {
-            // wagon!.zRotation = CGFloat(0.0)
+//        if (velocity > 2.2) {
+//            wagon!.zRotation = self.angleOfVector(wagon!.physicsBody!.velocity)
+//        }
+        
+        for item in wagons {
+            self.orientWagon(item)
         }
+
+        // tentative de zoom en fonction de la vélocité
+        let prevVelo = previousVelocity
+        previousVelocity = velocity
+        let filteredVelocity = 0.08 * velocity + 0.92 * prevVelo
+        previousVelocity = filteredVelocity
+        var scale: CGFloat = 0.9 + filteredVelocity * 0.0000020
+        if (scale > 2.15) {
+            scale = 2.15
+        }
+        world?.xScale = scale
+        world?.yScale = scale
         self.centerOnNode(self.childNodeWithName("world")!.childNodeWithName("wagon"))
+    }
+    
+    func orientWagon(wag: SKNode) {
+        let velocity = pow(wag.physicsBody!.velocity.dx,2.0) + pow(wag.physicsBody!.velocity.dy,2.0)
+        if (velocity > 2.2) {
+            var direction = wag.physicsBody!.velocity
+            if (direction.dx < 0) {
+                direction.dx *= -1
+            }
+            wag.zRotation = self.angleOfVector(direction)
+        }
     }
     
     func centerOnNode(node: SKNode?) {
         if let cam = node {
             let camPosInScene = cam.scene?.convertPoint(cam.position, fromNode: cam.parent!)
             if let camPos = camPosInScene {
-                cam.parent?.position = CGPoint(x: cam.parent!.position.x - camPos.x + 230.0, y: cam.parent!.position.y - camPos.y + 200.0)
+                cam.parent?.position = CGPoint(x: cam.parent!.position.x - camPos.x + 340.0, y: cam.parent!.position.y - camPos.y + 320.0)
             }
         }
     }
     
-    func getBezier(ySize: Double) -> UIBezierPath {
+    func getBezier(xSize: Double, ySize: Double) -> UIBezierPath {
         let path = UIBezierPath()
+        let factor = xSize / 400.0
         path.moveToPoint(CGPoint(x: patternWidth, y: 0.0))
-        path.addCurveToPoint(CGPoint(x: 200.0, y: ySize), controlPoint1: CGPoint(x: 320.0, y: 0.0), controlPoint2: CGPoint(x: 280.0, y: ySize))
-        path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 120.0, y: ySize), controlPoint2: CGPoint(x: 80.0, y: 0.0))
+        path.addCurveToPoint(CGPoint(x: 200.0 * factor, y: ySize), controlPoint1: CGPoint(x: 320.0 * factor, y: 0.0), controlPoint2: CGPoint(x: 280.0 * factor, y: ySize))
+        path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 120.0 * factor, y: ySize), controlPoint2: CGPoint(x: 80.0 * factor, y: 0.0))
         return path
     }
 
@@ -307,27 +374,8 @@ class GameScene: SKScene {
 			prevNode = node;
 		}
 
-		let wagon  = self.childNodeWithName("world")!.childNodeWithName("wagon")!;
-		let shape = nxtNode as SKShapeNode;
-		
-		if currentPattern != nxtNode!.position.x {
-			println("changement de joint \(nxtNode!.position.x)")
-			if  currentJoint != nil {
-				self.physicsWorld.removeJoint(currentJoint!);
-				
-			}
-			// changement de pattern, mise a jour du joint
-		
-			// println("nxtNode \(nxtNode!.position.x)")
-
-			
-			var joint: SKPhysicsJointLimit = SKPhysicsJointLimit.jointWithBodyA(shape.physicsBody, bodyB: wagon.physicsBody, anchorA: shape.position, anchorB: wagon.position)
-			joint.maxLength = 3.0
-			self.physicsWorld.addJoint(joint)
-			currentJoint = joint
-			currentPattern = nxtNode!.position.x
-			
-		}
+		// println("nxtNode \(nxtNode!.position.x)")
+		let shape = prevNode as SKShapeNode;
 		
 		var mespoints = BezierHelper.getPointsFromPath(shape.path);
 		mespoints.addObject([0.0,0.0])
@@ -342,21 +390,36 @@ class GameScene: SKScene {
 		for couple in mespoints as [AnyObject]{
 			let c = couple as [NSNumber]
 			// println("couple \(c[0]) \(c[1])")
-			if CGFloat(c[0]) < (x - nxtNode!.position.x + patternWidth) {
-				//
-				leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
-				rightPoint = CGPoint(x: CGFloat (prevCouple[0]), y: CGFloat (prevCouple[1]))
+            
+            if let unwrappedNxtNode = nxtNode {
+                if CGFloat(c[0]) < (x - unwrappedNxtNode.position.x + patternWidth) {
+                    //
+                    leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
+                    rightPoint = CGPoint(x: CGFloat (prevCouple[0]), y: CGFloat (prevCouple[1]))
+                    foundPoints = true
+                    break;
+                }
+            } else {
+                leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
+                rightPoint = CGPoint(x: CGFloat (c[0])+3.0, y: CGFloat(c[1]))
                 foundPoints = true
-				break;
-			}
+                break;
+            }
+            
+			
 			prevCouple = c;
 		}
         if (!foundPoints) {
             return CGVector(dx: 0.0, dy: 0.0)
         }
 		
+        var dx = factor * coef * (rightPoint!.x - leftPoint!.x);
+        if (dx < 0) {
+            dx *= -1
+        }
+        
 		// pour la shape, on récupère
-		return CGVector(dx: factor * coef * (rightPoint!.x - leftPoint!.x), dy: factor * coef * (rightPoint!.y - leftPoint!.y))
+		return CGVector(dx: dx, dy: factor * coef * (rightPoint!.y - leftPoint!.y))
 	}
     
     func angleOfVector(vector: CGVector) -> CGFloat {

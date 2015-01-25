@@ -21,7 +21,12 @@ class SplashScene: SKScene {
     var shotPicture: UIImage!
 
     override func didMoveToView(view: SKView) {
-        
+        var moveRight = SKAction.moveByX(590, y: 0, duration: 40.0)
+        var moveLeft = SKAction.moveByX(-590, y: 0, duration: 40.0)
+        var sequence = SKAction.sequence([moveLeft,moveRight])
+        var animation = SKAction.repeatActionForever(sequence)
+        var bg = self.childNodeWithName("background")!
+        bg.runAction(animation)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
