@@ -122,13 +122,6 @@ class SplashScene: SKScene {
     }
 
     override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
-        let label = self.childNodeWithName("audioLevel") as SKLabelNode
-        
-        let app = UIApplication.sharedApplication().delegate as AppDelegate
-        let level = app.audioLevel
-        let str = NSString(format: "%.6f", level)
-        label.text = str
         
     }
 }
