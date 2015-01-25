@@ -21,13 +21,13 @@
 		B52CFF2F1A72E006007C9E3F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52CFF2E1A72E006007C9E3F /* GameScene.swift */; };
 		B52CFF311A72E006007C9E3F /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52CFF301A72E006007C9E3F /* GameViewController.swift */; };
 		B52CFF341A72E006007C9E3F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B52CFF321A72E006007C9E3F /* Main.storyboard */; };
-		B52CFF361A72E006007C9E3F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B52CFF351A72E006007C9E3F /* Images.xcassets */; };
 		B52CFF391A72E006007C9E3F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B52CFF371A72E006007C9E3F /* LaunchScreen.xib */; };
 		B52CFF451A72E006007C9E3F /* YellercoasterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52CFF441A72E006007C9E3F /* YellercoasterTests.swift */; };
 		B52CFF4F1A72E386007C9E3F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B52CFF4E1A72E386007C9E3F /* AVFoundation.framework */; };
 		B52CFF531A730931007C9E3F /* SplashScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B52CFF521A730931007C9E3F /* SplashScene.sks */; };
 		B52CFF551A73094C007C9E3F /* SplashScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52CFF541A73094C007C9E3F /* SplashScene.swift */; };
 		B52CFF591A73D401007C9E3F /* alpha.png in Resources */ = {isa = PBXBuildFile; fileRef = B52CFF581A73D401007C9E3F /* alpha.png */; };
+		B5C5B4FC1A752CE70013DBD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5C5B4FB1A752CE70013DBD3 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +62,6 @@
 		B52CFF2E1A72E006007C9E3F /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		B52CFF301A72E006007C9E3F /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		B52CFF331A72E006007C9E3F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B52CFF351A72E006007C9E3F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B52CFF381A72E006007C9E3F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		B52CFF3E1A72E006007C9E3F /* YellercoasterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YellercoasterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B52CFF431A72E006007C9E3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -71,6 +70,7 @@
 		B52CFF521A730931007C9E3F /* SplashScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = SplashScene.sks; path = ../SplashScene.sks; sourceTree = "<group>"; };
 		B52CFF541A73094C007C9E3F /* SplashScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SplashScene.swift; path = ../SplashScene.swift; sourceTree = "<group>"; };
 		B52CFF581A73D401007C9E3F /* alpha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alpha.png; sourceTree = "<group>"; };
+		B5C5B4FB1A752CE70013DBD3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,8 +139,8 @@
 				B52CFF301A72E006007C9E3F /* GameViewController.swift */,
 				3242BA7F1A74229300177EA9 /* StreamCapture.swift */,
 				B52CFF321A72E006007C9E3F /* Main.storyboard */,
-				B52CFF351A72E006007C9E3F /* Images.xcassets */,
 				B52CFF371A72E006007C9E3F /* LaunchScreen.xib */,
+				B5C5B4FB1A752CE70013DBD3 /* Images.xcassets */,
 				B52CFF581A73D401007C9E3F /* alpha.png */,
 				B52CFF281A72E006007C9E3F /* Supporting Files */,
 				327374011A73B28D0002636D /* Yellercoaster-Bridging-Header.h */,
@@ -225,7 +225,7 @@
 				TargetAttributes = {
 					B52CFF241A72E006007C9E3F = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = 4699QGD4UQ;
+						DevelopmentTeam = D57V7BSY23;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 0;
@@ -234,7 +234,7 @@
 					};
 					B52CFF3D1A72E006007C9E3F = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = 4699QGD4UQ;
+						DevelopmentTeam = D57V7BSY23;
 						TestTargetID = B52CFF241A72E006007C9E3F;
 					};
 				};
@@ -264,7 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B52CFF391A72E006007C9E3F /* LaunchScreen.xib in Resources */,
-				B52CFF361A72E006007C9E3F /* Images.xcassets in Resources */,
+				B5C5B4FC1A752CE70013DBD3 /* Images.xcassets in Resources */,
 				B52CFF591A73D401007C9E3F /* alpha.png in Resources */,
 				B52CFF2D1A72E006007C9E3F /* GameScene.sks in Resources */,
 				2119E8E11A74712300D1197A /* CreditScene.sks in Resources */,

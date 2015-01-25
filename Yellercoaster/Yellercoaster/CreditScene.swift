@@ -14,6 +14,7 @@ class CreditScene: SKScene {
     override func didMoveToView(view: SKView) {
         let bg = SKSpriteNode(imageNamed: "creditBackground.png")
         bg.name = "creditBackground"
+        bg.position = CGPoint(x: 512.0, y: 384.0)
         self.addChild(bg)
     }
 
