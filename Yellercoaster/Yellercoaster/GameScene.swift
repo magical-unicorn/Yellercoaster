@@ -15,10 +15,11 @@ class GameScene: SKScene {
 	var maxVelocity : CGFloat = 750.0
     var previousVelocity : CGFloat = 0.0
     var groundItems = [SKNode]()
-	let patternWidth:CGFloat = 400.0
+	let patternWidth:CGFloat = 540.0
 	var currentPattern:CGFloat = -1.0;
 	var currentJoint:SKPhysicsJointLimit?;
-	var wagons = 6;
+	var wagons = [SKNode]()
+	var wagonsNumber = 6;
 	var wagon:SKNode?;
 	var wagon1:SKNode?;
 	var wagon2:SKNode?;
@@ -52,6 +53,13 @@ class GameScene: SKScene {
 		wagon3 = world.childNodeWithName("wagon3")!
 		wagon4 = world.childNodeWithName("wagon4")!
 		wagon5 = world.childNodeWithName("wagon5")!
+		
+		wagons.append(wagon!)
+		wagons.append(wagon1!)
+		wagons.append(wagon2!)
+		wagons.append(wagon3!)
+		wagons.append(wagon4!)
+		wagons.append(wagon5!)
 
 		joint1 = SKPhysicsJointSpring.jointWithBodyA(wagon!.physicsBody, bodyB: wagon1!.physicsBody, anchorA: wagon!.position, anchorB: wagon1!.position)
 		self.physicsWorld.addJoint(joint1!)
@@ -104,20 +112,20 @@ class GameScene: SKScene {
 
 	func larguer1wagon() {
 		println("largage wagon \(wagons)")
-		if wagons == 6 {
+		if wagonsNumber == 6 {
 			self.physicsWorld.removeJoint(joint5!)
-		} else if wagons == 5 {
+		} else if wagonsNumber == 5 {
 			self.physicsWorld.removeJoint(joint4!)
-		} else if wagons == 4 {
+		} else if wagonsNumber == 4 {
 			self.physicsWorld.removeJoint(joint3!)
-		} else if wagons == 3 {
+		} else if wagonsNumber == 3 {
 			self.physicsWorld.removeJoint(joint2!)
-		} else if wagons == 2 {
+		} else if wagonsNumber == 2 {
 			self.physicsWorld.removeJoint(joint1!)
 		} else {
 			self.findepartie("Plus de wagon !")
 		}
-		wagons--;
+		wagonsNumber--;
 	}
 	
 	func findepartie(s: String) {
