@@ -13,6 +13,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var audioLevel:Double = 0.0
+	var score = 0;
+	var distance = 0;
+	var message = "";
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -41,6 +44,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    func applicationDidReceiveMemoryWarning(application: UIApplication) {
+        println("MEMORY WARNING")
+    }
 }
 

@@ -10,6 +10,8 @@
 		2119E8E11A74712300D1197A /* CreditScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2119E8E01A74712300D1197A /* CreditScene.sks */; };
 		2119E8E31A74714400D1197A /* CreditScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119E8E21A74714400D1197A /* CreditScene.swift */; };
 		3242BA801A74229300177EA9 /* StreamCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242BA7F1A74229300177EA9 /* StreamCapture.swift */; };
+		3242BA821A74FE8800177EA9 /* ScoreScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3242BA811A74FE8800177EA9 /* ScoreScene.sks */; };
+		3242BA841A74FEA200177EA9 /* ScoreScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242BA831A74FEA200177EA9 /* ScoreScene.swift */; };
 		3273740C1A73B86A0002636D /* UIBezierPath+Rob_points.m in Sources */ = {isa = PBXBuildFile; fileRef = 327374061A73B86A0002636D /* UIBezierPath+Rob_points.m */; };
 		3273740E1A73B86A0002636D /* UIBezierPath+Rob_forEach.m in Sources */ = {isa = PBXBuildFile; fileRef = 327374091A73B86A0002636D /* UIBezierPath+Rob_forEach.m */; };
 		3273740F1A73B86A0002636D /* UIBezierPath+Rob_dash.m in Sources */ = {isa = PBXBuildFile; fileRef = 3273740B1A73B86A0002636D /* UIBezierPath+Rob_dash.m */; };
@@ -42,6 +44,8 @@
 		2119E8E01A74712300D1197A /* CreditScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = CreditScene.sks; sourceTree = "<group>"; };
 		2119E8E21A74714400D1197A /* CreditScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditScene.swift; sourceTree = "<group>"; };
 		3242BA7F1A74229300177EA9 /* StreamCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamCapture.swift; sourceTree = "<group>"; };
+		3242BA811A74FE8800177EA9 /* ScoreScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ScoreScene.sks; sourceTree = "<group>"; };
+		3242BA831A74FEA200177EA9 /* ScoreScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreScene.swift; sourceTree = "<group>"; };
 		327374011A73B28D0002636D /* Yellercoaster-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Yellercoaster-Bridging-Header.h"; sourceTree = "<group>"; };
 		327374051A73B86A0002636D /* UIBezierPath+Rob_points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+Rob_points.h"; sourceTree = "<group>"; };
 		327374061A73B86A0002636D /* UIBezierPath+Rob_points.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+Rob_points.m"; sourceTree = "<group>"; };
@@ -264,6 +268,7 @@
 				2119E8E11A74712300D1197A /* CreditScene.sks in Resources */,
 				B52CFF341A72E006007C9E3F /* Main.storyboard in Resources */,
 				B52CFF531A730931007C9E3F /* SplashScene.sks in Resources */,
+				3242BA821A74FE8800177EA9 /* ScoreScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

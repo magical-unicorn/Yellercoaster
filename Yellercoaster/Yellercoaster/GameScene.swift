@@ -12,6 +12,7 @@ import SpriteKit
 class GameScene: SKScene {
     var avancement = 0.0
     var groundBuilt = 0.0
+    var groundItemsTotalCount = 0
 	var maxVelocity : CGFloat = 550.0
     var previousVelocity : CGFloat = 0.0
     var groundItems = [SKNode]()
@@ -137,6 +138,17 @@ class GameScene: SKScene {
 	}
 	
 	func findepartie(s: String) {
+		let app = UIApplication.sharedApplication().delegate as AppDelegate
+		let world = self.childNodeWithName("world")!
+		wagon = world.childNodeWithName("wagon")!
+
+		app.distance = Int(Double(wagon!.position.x))
+		app.score = app.distance*3 ;
+		app.message = s;
+		
+		if let scene = ScoreScene.unarchiveFromFile("ScoreScene") as? ScoreScene {
+			self.view?.presentScene(scene, transition: SKTransition.flipVerticalWithDuration(0.6))
+		}
 		println("perdu!" + s)
 	}
 	
@@ -145,14 +157,20 @@ class GameScene: SKScene {
         let world = self.childNodeWithName("world")!
         if let ground = world.childNodeWithName("ground") {
             if (self.groundBuilt - self.avancement - 1100.0 <= 0.0) {
+                groundItemsTotalCount++
                 let bHeight = 15 + arc4random() % 500
-                let bezier = self.getBezier(Double(patternWidth),ySize: Double(bHeight))
+                var bezier = self.getBezier(Double(patternWidth),ySize: Double(bHeight))
+                if (((groundItemsTotalCount-1) % 7) == 0) {
+                    bezier = self.getBezierTrou(Double(patternWidth),ySize: Double(350))
+                }
                 let shape = SKShapeNode(path: bezier.CGPath)
                 shape.fillColor = SKColor.whiteColor()
                 //let texture = SKTexture(imageNamed: "alpha.png")!
                 //shape.fillTexture = texture
                 shape.setTiledFillTexture("roller_pattern", tileSize: CGSize(width: 62.4, height: 82.2))
-                shape.strokeColor = SKColor.blackColor()
+                //shape.strokeColor = SKColor(red: 202.0, green: 158.0, blue: 103.0, alpha: 255.0)
+                shape.strokeColor = SKColor.brownColor()
+                shape.lineWidth = 2.0
                 shape.position = CGPoint(x: self.groundBuilt, y: 0.0)
 				
                 shape.xScale = 1.0
@@ -283,8 +301,10 @@ class GameScene: SKScene {
         let jaugeBG = self.childNodeWithName("jaugeBG") as SKSpriteNode
         jauge.size.height = jaugeBG.size.height * CGFloat(level)
         
+        var count = 0
         for voiture in wagons {
-            if (voiture.name != "wagon") {
+            count++
+            if (voiture.name != "wagon" && count == self.wagonsNumber) {
                 self.centripeteTaMere(voiture)
             }
         }
@@ -382,15 +402,36 @@ class GameScene: SKScene {
         path.moveToPoint(CGPoint(x: patternWidth, y: 0.0))
         path.addCurveToPoint(CGPoint(x: 200.0 * factor, y: ySize), controlPoint1: CGPoint(x: 320.0 * factor, y: 0.0), controlPoint2: CGPoint(x: 280.0 * factor, y: ySize))
         path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 120.0 * factor, y: ySize), controlPoint2: CGPoint(x: 80.0 * factor, y: 0.0))
+        path.addLineToPoint(CGPoint(x: 0.0, y: -400.0))
+        path.addLineToPoint(CGPoint(x: patternWidth, y: -400.0))
         return path
     }
+    
     func getSquareBezier(xSize: Double) -> UIBezierPath {
         let path = UIBezierPath()
         let factor = xSize / 400.0
         path.moveToPoint(CGPoint(x: patternWidth, y: 0.0))
-        path.moveToPoint(CGPoint(x: 0.0, y: 0.0))
-        path.moveToPoint(CGPoint(x: 0.0, y: -200.0))
-        path.moveToPoint(CGPoint(x: patternWidth, y: -200.0))
+        path.addLineToPoint(CGPoint(x: 0.0, y: 0.0))
+        path.addLineToPoint(CGPoint(x: 0.0, y: -400.0))
+        path.addLineToPoint(CGPoint(x: patternWidth, y: -400.0))
+        return path
+    }
+    
+    func getBezierTrou(xSize: Double, ySize: Double) -> UIBezierPath {
+        let path = UIBezierPath()
+        let factor = xSize / 400.0
+        path.moveToPoint(CGPoint(x: patternWidth, y: 0.0))
+        path.addLineToPoint(CGPoint(x: patternWidth, y: -400.0))
+        path.addLineToPoint(CGPoint(x: 0.5 * patternWidth, y: -400.0))
+        path.addLineToPoint(CGPoint(x: 0.5 * patternWidth, y: 0.0))
+        path.addLineToPoint(CGPoint(x: 0.5 * patternWidth, y: 0.75 * CGFloat(ySize)))
+        path.addCurveToPoint(CGPoint(x: 0.35 * patternWidth, y: CGFloat(ySize)), controlPoint1: CGPoint(x: 0.5 * patternWidth, y: 0.95 * CGFloat(ySize)), controlPoint2: CGPoint(x: 0.46 * patternWidth, y: CGFloat(ySize)))
+        
+        path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 0.20 * patternWidth, y: CGFloat(ySize)), controlPoint2: CGPoint(x: 0.17 * patternWidth, y: 0.0))
+        
+        path.addLineToPoint(CGPoint(x: 0.0, y: -400.0))
+    
+        path.addLineToPoint(CGPoint(x: patternWidth, y: -400.0))
         return path
     }
 
@@ -424,6 +465,7 @@ class GameScene: SKScene {
 		
 		var mespoints = BezierHelper.getPointsFromPath(shape.path);
 		mespoints.addObject([0.0,0.0])
+        
 		// points triés en décroissant
 		var leftPoint: CGPoint?;
 		var rightPoint: CGPoint?;
@@ -435,24 +477,25 @@ class GameScene: SKScene {
 		for couple in mespoints as [AnyObject]{
 			let c = couple as [NSNumber]
 			// println("couple \(c[0]) \(c[1])")
-            
-            if let unwrappedNxtNode = nxtNode {
-                if CGFloat(c[0]) < (x - unwrappedNxtNode.position.x + patternWidth) {
-                    //
+            if (CGFloat(c[1]) >= 0.0) {
+                if let unwrappedNxtNode = nxtNode {
+                    if CGFloat(c[0]) < (x - unwrappedNxtNode.position.x + patternWidth) {
+                        //
+                        leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
+                        rightPoint = CGPoint(x: CGFloat (prevCouple[0]), y: CGFloat (prevCouple[1]))
+                        foundPoints = true
+                        break;
+                    }
+                } else {
                     leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
-                    rightPoint = CGPoint(x: CGFloat (prevCouple[0]), y: CGFloat (prevCouple[1]))
+                    rightPoint = CGPoint(x: CGFloat (c[0])+3.0, y: CGFloat(c[1]))
                     foundPoints = true
                     break;
                 }
-            } else {
-                leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
-                rightPoint = CGPoint(x: CGFloat (c[0])+3.0, y: CGFloat(c[1]))
-                foundPoints = true
-                break;
+                
+                
+                prevCouple = c;
             }
-            
-			
-			prevCouple = c;
 		}
         if (!foundPoints) {
             return CGVector(dx: 0.0, dy: 0.0)
