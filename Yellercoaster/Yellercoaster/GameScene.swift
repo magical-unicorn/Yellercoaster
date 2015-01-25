@@ -12,6 +12,7 @@ import SpriteKit
 class GameScene: SKScene {
     var avancement = 0.0
     var groundBuilt = 0.0
+    var groundItemsTotalCount = 0
 	var maxVelocity : CGFloat = 550.0
     var previousVelocity : CGFloat = 0.0
     var groundItems = [SKNode]()
@@ -145,14 +146,20 @@ class GameScene: SKScene {
         let world = self.childNodeWithName("world")!
         if let ground = world.childNodeWithName("ground") {
             if (self.groundBuilt - self.avancement - 1100.0 <= 0.0) {
+                groundItemsTotalCount++
                 let bHeight = 15 + arc4random() % 500
-                let bezier = self.getBezier(Double(patternWidth),ySize: Double(bHeight))
+                var bezier = self.getBezier(Double(patternWidth),ySize: Double(bHeight))
+                if (((groundItemsTotalCount-1) % 7) == 0) {
+                    bezier = self.getBezierTrou(Double(patternWidth),ySize: Double(350))
+                }
                 let shape = SKShapeNode(path: bezier.CGPath)
                 shape.fillColor = SKColor.whiteColor()
                 //let texture = SKTexture(imageNamed: "alpha.png")!
                 //shape.fillTexture = texture
                 shape.setTiledFillTexture("roller_pattern", tileSize: CGSize(width: 62.4, height: 82.2))
-                shape.strokeColor = SKColor.blackColor()
+                //shape.strokeColor = SKColor(red: 202.0, green: 158.0, blue: 103.0, alpha: 255.0)
+                shape.strokeColor = SKColor.brownColor()
+                shape.lineWidth = 2.0
                 shape.position = CGPoint(x: self.groundBuilt, y: 0.0)
 				
                 shape.xScale = 1.0
@@ -384,8 +391,11 @@ class GameScene: SKScene {
         path.moveToPoint(CGPoint(x: patternWidth, y: 0.0))
         path.addCurveToPoint(CGPoint(x: 200.0 * factor, y: ySize), controlPoint1: CGPoint(x: 320.0 * factor, y: 0.0), controlPoint2: CGPoint(x: 280.0 * factor, y: ySize))
         path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 120.0 * factor, y: ySize), controlPoint2: CGPoint(x: 80.0 * factor, y: 0.0))
+        path.addLineToPoint(CGPoint(x: 0.0, y: -400.0))
+        path.addLineToPoint(CGPoint(x: patternWidth, y: -400.0))
         return path
     }
+    
     func getSquareBezier(xSize: Double) -> UIBezierPath {
         let path = UIBezierPath()
         let factor = xSize / 400.0
@@ -395,6 +405,7 @@ class GameScene: SKScene {
         path.addLineToPoint(CGPoint(x: patternWidth, y: -400.0))
         return path
     }
+    
     func getBezierTrou(xSize: Double, ySize: Double) -> UIBezierPath {
         let path = UIBezierPath()
         let factor = xSize / 400.0
@@ -403,7 +414,7 @@ class GameScene: SKScene {
         path.addLineToPoint(CGPoint(x: 0.5 * patternWidth, y: -400.0))
         path.addLineToPoint(CGPoint(x: 0.5 * patternWidth, y: 0.0))
         path.addLineToPoint(CGPoint(x: 0.5 * patternWidth, y: 0.75 * CGFloat(ySize)))
-        path.addCurveToPoint(CGPoint(x: 0.35 * patternWidth, y: CGFloat(ySize)), controlPoint1: CGPoint(x: 0.5 * patternWidth, y: 0.75 * CGFloat(ySize)), controlPoint2: CGPoint(x: 0.26 * patternWidth, y: CGFloat(ySize)))
+        path.addCurveToPoint(CGPoint(x: 0.35 * patternWidth, y: CGFloat(ySize)), controlPoint1: CGPoint(x: 0.5 * patternWidth, y: 0.95 * CGFloat(ySize)), controlPoint2: CGPoint(x: 0.46 * patternWidth, y: CGFloat(ySize)))
         
         path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 0.20 * patternWidth, y: CGFloat(ySize)), controlPoint2: CGPoint(x: 0.17 * patternWidth, y: 0.0))
         
