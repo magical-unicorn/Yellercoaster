@@ -12,7 +12,7 @@ import SpriteKit
 class GameScene: SKScene {
     var avancement = 0.0
     var groundBuilt = 0.0
-	var maxVelocity : CGFloat = 750.0
+	var maxVelocity : CGFloat = 550.0
     var previousVelocity : CGFloat = 0.0
     var groundItems = [SKNode]()
 	let patternWidth:CGFloat = 540.0
@@ -36,10 +36,18 @@ class GameScene: SKScene {
 	var idxLastSpeeds = 0;
 	var initSpeeds = false;
 	var meanSpeed:CGFloat = 0.0;
-	
+    var bgSprite : SKSpriteNode?
 
 	
     override func didMoveToView(view: SKView) {
+        let bg = SKSpriteNode(imageNamed: "background.png")
+        self.bgSprite = bg
+        bg.xScale = 0.5
+        bg.yScale = 0.5
+        bg.zPosition = -5.0
+        bg.position = CGPoint(x: 0.0, y: 384.0)
+        self.addChild(bg)
+        
         let world = self.childNodeWithName("world")!
 
         let ground = SKNode()
@@ -137,13 +145,13 @@ class GameScene: SKScene {
         let world = self.childNodeWithName("world")!
         if let ground = world.childNodeWithName("ground") {
             if (self.groundBuilt - self.avancement - 1100.0 <= 0.0) {
-                let bHeight = 1 + arc4random() % 500
+                let bHeight = 15 + arc4random() % 500
                 let bezier = self.getBezier(Double(patternWidth),ySize: Double(bHeight))
                 let shape = SKShapeNode(path: bezier.CGPath)
                 shape.fillColor = SKColor.whiteColor()
                 //let texture = SKTexture(imageNamed: "alpha.png")!
                 //shape.fillTexture = texture
-                shape.setTiledFillTexture("alpha", tileSize: CGSize(width: 32.0, height: 32.0))
+                shape.setTiledFillTexture("roller_pattern", tileSize: CGSize(width: 62.4, height: 82.2))
                 shape.strokeColor = SKColor.blackColor()
                 shape.position = CGPoint(x: self.groundBuilt, y: 0.0)
 				
@@ -153,8 +161,18 @@ class GameScene: SKScene {
                 body.affectedByGravity = false
                 body.dynamic = false
                 shape.physicsBody = body
+                
                 ground.addChild(shape)
-				
+//                
+//                let squareBezier = self.getSquareBezier(Double(patternWidth))
+//                let shape2 = SKShapeNode(path: squareBezier.CGPath)
+//                shape2.fillColor = SKColor.whiteColor()
+//                shape2.setTiledFillTexture("roller_pattern", tileSize: CGSize(width: 62.4, height: 82.2))
+//                shape2.strokeColor = SKColor.blackColor()
+//                shape2.position = CGPoint(x: self.groundBuilt, y: 0.0)
+//				
+//                shape.addChild(shape2)
+                
                 self.groundItems.append(shape)
                 self.groundBuilt += Double(patternWidth)
                 if (self.groundItems.count > 8) {
@@ -212,7 +230,7 @@ class GameScene: SKScene {
         // wagon.physicsBody?.velocity.dx = 300.0 - wPos.x
         // wagon.physicsBody?.applyImpulse(CGVector(dx: 300.0 - Double(wPos.x), dy: 0.0))
         
-        let xDiff = CGFloat(32.0*level)
+        let xDiff = CGFloat(35.0*level)
 		// println("XDiff \(xDiff)")
         //wagon.physicsBody?.applyForce(CGVector(dx: 300.0 * xDiff, dy: 0.0))
 		let tangent = getTangentVector(wagon.position.x, factor: xDiff);
@@ -304,11 +322,13 @@ class GameScene: SKScene {
             
             var scalar = tangent.dx * ortho.dx + tangent.dy * ortho.dy
             
-            wagonnet.physicsBody?.applyForce(CGVector(dx: ortho.dx * 2.5, dy: ortho.dy * 2.9))
+            wagonnet.physicsBody?.applyForce(CGVector(dx: ortho.dx * 1.2, dy: ortho.dy * 1.2))
         }
     }
     
     override func didFinishUpdate() {
+        self.bgSprite!.position = CGPoint(x: Double(self.bgSprite!.size.width * 0.5) - avancement * 0.05, y: 384.0)
+        
         let world = self.childNodeWithName("world")
         let wagon = world?.childNodeWithName("wagon")
         let velocity = pow(wagon!.physicsBody!.velocity.dx,2.0) + pow(wagon!.physicsBody!.velocity.dy,2.0)
@@ -323,7 +343,7 @@ class GameScene: SKScene {
         // tentative de zoom en fonction de la vélocité
         let prevVelo = previousVelocity
         previousVelocity = velocity
-        let filteredVelocity = 0.08 * velocity + 0.92 * prevVelo
+        let filteredVelocity = 0.07 * velocity + 0.93 * prevVelo
         previousVelocity = filteredVelocity
         var scale: CGFloat = 0.9 + filteredVelocity * 0.0000020
         if (scale > 2.15) {
@@ -362,6 +382,15 @@ class GameScene: SKScene {
         path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 120.0 * factor, y: ySize), controlPoint2: CGPoint(x: 80.0 * factor, y: 0.0))
         return path
     }
+    func getSquareBezier(xSize: Double) -> UIBezierPath {
+        let path = UIBezierPath()
+        let factor = xSize / 400.0
+        path.moveToPoint(CGPoint(x: patternWidth, y: 0.0))
+        path.moveToPoint(CGPoint(x: 0.0, y: 0.0))
+        path.moveToPoint(CGPoint(x: 0.0, y: -200.0))
+        path.moveToPoint(CGPoint(x: patternWidth, y: -200.0))
+        return path
+    }
 
 	func getTangentVector(x: CGFloat,factor: CGFloat) -> CGVector {
 		if (self.groundItems.count < 3) {
@@ -383,7 +412,13 @@ class GameScene: SKScene {
 		}
 
 		// println("nxtNode \(nxtNode!.position.x)")
-		let shape = prevNode as SKShapeNode;
+        var leNode : SKNode?
+        if (prevNode != nil) {
+            leNode = prevNode
+        } else {
+            leNode = nxtNode
+        }
+		let shape = leNode as SKShapeNode;
 		
 		var mespoints = BezierHelper.getPointsFromPath(shape.path);
 		mespoints.addObject([0.0,0.0])
