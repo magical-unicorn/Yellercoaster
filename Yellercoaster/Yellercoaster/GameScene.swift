@@ -288,6 +288,8 @@ class GameScene: SKScene {
                 self.centripeteTaMere(voiture)
             }
         }
+        
+        gardeLesDansLordre()
     }
     
     func centripeteTaMere(wagonnet: SKNode) {
@@ -478,6 +480,25 @@ class GameScene: SKScene {
             rawAngle += M_PI_2
         }
         return CGFloat(rawAngle)
+    }
+    
+    func gardeLesDansLordre() {
+        let world = self.childNodeWithName("world")!
+        let wagonPrincipal = world.childNodeWithName("wagon")!
+        var previousX = wagonPrincipal.position.x
+        var previousWagon = wagonPrincipal
+        for wagon in self.wagons {
+            if (wagon.position.x > previousX) {
+                if let bodyPrev = previousWagon.physicsBody {
+                    bodyPrev.applyImpulse(CGVector(dx: 10.0, dy: 0.0))
+                }
+                if let bodyCourant = wagon.physicsBody {
+                    bodyCourant.applyImpulse(CGVector(dx: -10.0, dy: 0.0))
+                }
+            }
+            previousX = wagon.position.x
+            previousWagon = wagon
+        }
     }
 }
 
