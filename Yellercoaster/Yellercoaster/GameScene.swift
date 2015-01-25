@@ -431,12 +431,13 @@ class GameScene: SKScene {
     func getBezierTrou(xSize: Double, ySize: Double) -> UIBezierPath {
         let path = UIBezierPath()
         let factor = xSize / 400.0
+        let betterY = CGFloat(175.0 + ySize * 0.15)
         path.moveToPoint(CGPoint(x: patternWidth, y: 0.0))
         path.addLineToPoint(CGPoint(x: patternWidth, y: -400.0))
         path.addLineToPoint(CGPoint(x: 0.5 * patternWidth, y: -400.0))
         path.addLineToPoint(CGPoint(x: 0.5 * patternWidth, y: 0.0))
-        path.addLineToPoint(CGPoint(x: 0.5 * patternWidth, y: 0.75 * CGFloat(ySize)))
-        path.addCurveToPoint(CGPoint(x: 0.35 * patternWidth, y: CGFloat(ySize)), controlPoint1: CGPoint(x: 0.5 * patternWidth, y: 0.95 * CGFloat(ySize)), controlPoint2: CGPoint(x: 0.46 * patternWidth, y: CGFloat(ySize)))
+        path.addLineToPoint(CGPoint(x: 0.5 * patternWidth, y: 0.75 * betterY))
+        path.addCurveToPoint(CGPoint(x: 0.35 * patternWidth, y: betterY), controlPoint1: CGPoint(x: 0.5 * patternWidth, y: 0.95 * betterY), controlPoint2: CGPoint(x: 0.46 * patternWidth, y: betterY))
         
         path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 0.20 * patternWidth, y: CGFloat(ySize)), controlPoint2: CGPoint(x: 0.17 * patternWidth, y: 0.0))
         
