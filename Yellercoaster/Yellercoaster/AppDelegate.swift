@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var score = 0;
 	var distance = 0;
 	var message = "";
+	var maxScore = 0;
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.

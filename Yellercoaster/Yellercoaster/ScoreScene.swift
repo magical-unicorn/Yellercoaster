@@ -7,10 +7,19 @@
 //
 
 import SpriteKit
-
+import AVFoundation
 
 class ScoreScene: SKScene {
+	var audioPlayer: AVAudioPlayer?
+	
 	override func didMoveToView(view: SKView) {
+		var song = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("mort", ofType: "aifc")!)
+		var error2:NSError?
+		self.audioPlayer = AVAudioPlayer(contentsOfURL: song, error: &error2)
+		self.audioPlayer!.numberOfLoops = -1
+		self.audioPlayer!.prepareToPlay()
+		self.audioPlayer!.play()
+		
 		let message = self.childNodeWithName("Message")! as SKLabelNode
 		let score = self.childNodeWithName("Score")! as SKLabelNode
 		let distance = self.childNodeWithName("Distance")! as SKLabelNode
@@ -22,6 +31,7 @@ class ScoreScene: SKScene {
 		
 	}
 	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+		self.audioPlayer!.stop()
 		if let scene = SplashScene.unarchiveFromFile("SplashScene") as? SplashScene {
 			self.view?.presentScene(scene, transition: SKTransition.flipVerticalWithDuration(0.6))
 		}

@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import AVFoundation
 
 
 class GameScene: SKScene {
@@ -38,6 +39,7 @@ class GameScene: SKScene {
 	var initSpeeds = false;
 	var meanSpeed:CGFloat = 0.0;
     var bgSprite : SKSpriteNode?
+	var audioPlayer: AVAudioPlayer?;
 
     func createWagons(container: SKNode) {
         let world = self.childNodeWithName("world")!
@@ -90,6 +92,14 @@ class GameScene: SKScene {
     }
 	
     override func didMoveToView(view: SKView) {
+		
+		var song = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("II", ofType: "aifc")!)
+		var error2:NSError?
+		self.audioPlayer = AVAudioPlayer(contentsOfURL: song, error: &error2)
+		self.audioPlayer!.numberOfLoops = -1
+		self.audioPlayer!.prepareToPlay()
+		self.audioPlayer!.play()
+		
         let bg = SKSpriteNode(imageNamed: "background.png")
         self.bgSprite = bg
         bg.xScale = 0.5
@@ -202,7 +212,7 @@ class GameScene: SKScene {
 		app.distance = Int(Double(wagon!.position.x))
 		app.score = app.distance*3 ;
 		app.message = s;
-		
+		self.audioPlayer!.stop()
 		if let scene = ScoreScene.unarchiveFromFile("ScoreScene") as? ScoreScene {
 			self.view?.presentScene(scene, transition: SKTransition.flipVerticalWithDuration(0.6))
 		} else {

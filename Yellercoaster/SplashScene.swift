@@ -19,6 +19,7 @@ class SplashScene: SKScene {
     var shotImage: UIImage!
     var cameratype: Bool = true
     var shotPicture: UIImage!
+	var audioPlayer: AVAudioPlayer?;
 
     override func didMoveToView(view: SKView) {
         var moveRight = SKAction.moveByX(590, y: 0, duration: 40.0)
@@ -27,6 +28,13 @@ class SplashScene: SKScene {
         var animation = SKAction.repeatActionForever(sequence)
         var bg = self.childNodeWithName("background")!
         bg.runAction(animation)
+		var song = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("intro", ofType: "aifc")!)
+		var error2:NSError?
+		self.audioPlayer = AVAudioPlayer(contentsOfURL: song, error: &error2)
+		self.audioPlayer!.numberOfLoops = -1
+		self.audioPlayer!.prepareToPlay()
+		self.audioPlayer!.play()
+		
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -50,6 +58,7 @@ class SplashScene: SKScene {
     }
     
     func letsPlayBaby() {
+		self.audioPlayer!.stop()
         if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
             self.view?.presentScene(scene, transition: SKTransition.flipVerticalWithDuration(0.6))
         }
