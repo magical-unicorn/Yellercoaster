@@ -42,6 +42,8 @@ class SplashScene: SKScene {
                     self.letsPlayBaby()
                 }else if (node.name == "photoBtn"){
                     self.letsMakeASelfie()
+                }else if (node.name == "creditBtn"){
+                    self.areWeHumans()
                 }
             }
         }
@@ -54,6 +56,13 @@ class SplashScene: SKScene {
 
     }
     
+    func areWeHumans() {
+        if let scene = CreditScene.unarchiveFromFile("CreditScene") as? CreditScene {
+            self.view?.presentScene(scene, transition: SKTransition.flipVerticalWithDuration(0.6))
+        }
+
+    }
+
     func letsMakeASelfie() {
         println("but first, let me tage a selfie")
         captureSession.sessionPreset = AVCaptureSessionPresetHigh
