@@ -294,11 +294,15 @@ class GameScene: SKScene {
         let jaugeBG = self.childNodeWithName("jaugeBG") as SKSpriteNode
         jauge.size.height = jaugeBG.size.height * CGFloat(level)
         
+        var count = 0
         for voiture in wagons {
-            if (voiture.name != "wagon") {
+            count++
+            if (voiture.name != "wagon" && count == self.wagonsNumber) {
                 self.centripeteTaMere(voiture)
             }
         }
+        
+        gardeLesDansLordre()
     }
     
     func centripeteTaMere(wagonnet: SKNode) {
@@ -397,9 +401,26 @@ class GameScene: SKScene {
         let path = UIBezierPath()
         let factor = xSize / 400.0
         path.moveToPoint(CGPoint(x: patternWidth, y: 0.0))
-        path.moveToPoint(CGPoint(x: 0.0, y: 0.0))
-        path.moveToPoint(CGPoint(x: 0.0, y: -200.0))
-        path.moveToPoint(CGPoint(x: patternWidth, y: -200.0))
+        path.addLineToPoint(CGPoint(x: 0.0, y: 0.0))
+        path.addLineToPoint(CGPoint(x: 0.0, y: -400.0))
+        path.addLineToPoint(CGPoint(x: patternWidth, y: -400.0))
+        return path
+    }
+    func getBezierTrou(xSize: Double, ySize: Double) -> UIBezierPath {
+        let path = UIBezierPath()
+        let factor = xSize / 400.0
+        path.moveToPoint(CGPoint(x: patternWidth, y: 0.0))
+        path.addLineToPoint(CGPoint(x: patternWidth, y: -400.0))
+        path.addLineToPoint(CGPoint(x: 0.5 * patternWidth, y: -400.0))
+        path.addLineToPoint(CGPoint(x: 0.5 * patternWidth, y: 0.0))
+        path.addLineToPoint(CGPoint(x: 0.5 * patternWidth, y: 0.75 * CGFloat(ySize)))
+        path.addCurveToPoint(CGPoint(x: 0.35 * patternWidth, y: CGFloat(ySize)), controlPoint1: CGPoint(x: 0.5 * patternWidth, y: 0.75 * CGFloat(ySize)), controlPoint2: CGPoint(x: 0.26 * patternWidth, y: CGFloat(ySize)))
+        
+        path.addCurveToPoint(CGPoint(x: 0.0, y: 0.0), controlPoint1: CGPoint(x: 0.20 * patternWidth, y: CGFloat(ySize)), controlPoint2: CGPoint(x: 0.17 * patternWidth, y: 0.0))
+        
+        path.addLineToPoint(CGPoint(x: 0.0, y: -400.0))
+    
+        path.addLineToPoint(CGPoint(x: patternWidth, y: -400.0))
         return path
     }
 
@@ -433,6 +454,7 @@ class GameScene: SKScene {
 		
 		var mespoints = BezierHelper.getPointsFromPath(shape.path);
 		mespoints.addObject([0.0,0.0])
+        
 		// points triés en décroissant
 		var leftPoint: CGPoint?;
 		var rightPoint: CGPoint?;
@@ -444,24 +466,25 @@ class GameScene: SKScene {
 		for couple in mespoints as [AnyObject]{
 			let c = couple as [NSNumber]
 			// println("couple \(c[0]) \(c[1])")
-            
-            if let unwrappedNxtNode = nxtNode {
-                if CGFloat(c[0]) < (x - unwrappedNxtNode.position.x + patternWidth) {
-                    //
+            if (CGFloat(c[1]) >= 0.0) {
+                if let unwrappedNxtNode = nxtNode {
+                    if CGFloat(c[0]) < (x - unwrappedNxtNode.position.x + patternWidth) {
+                        //
+                        leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
+                        rightPoint = CGPoint(x: CGFloat (prevCouple[0]), y: CGFloat (prevCouple[1]))
+                        foundPoints = true
+                        break;
+                    }
+                } else {
                     leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
-                    rightPoint = CGPoint(x: CGFloat (prevCouple[0]), y: CGFloat (prevCouple[1]))
+                    rightPoint = CGPoint(x: CGFloat (c[0])+3.0, y: CGFloat(c[1]))
                     foundPoints = true
                     break;
                 }
-            } else {
-                leftPoint = CGPoint(x: CGFloat (c[0]), y: CGFloat(c[1]))
-                rightPoint = CGPoint(x: CGFloat (c[0])+3.0, y: CGFloat(c[1]))
-                foundPoints = true
-                break;
+                
+                
+                prevCouple = c;
             }
-            
-			
-			prevCouple = c;
 		}
         if (!foundPoints) {
             return CGVector(dx: 0.0, dy: 0.0)
@@ -489,6 +512,25 @@ class GameScene: SKScene {
             rawAngle += M_PI_2
         }
         return CGFloat(rawAngle)
+    }
+    
+    func gardeLesDansLordre() {
+        let world = self.childNodeWithName("world")!
+        let wagonPrincipal = world.childNodeWithName("wagon")!
+        var previousX = wagonPrincipal.position.x
+        var previousWagon = wagonPrincipal
+        for wagon in self.wagons {
+            if (wagon.position.x > previousX) {
+                if let bodyPrev = previousWagon.physicsBody {
+                    bodyPrev.applyImpulse(CGVector(dx: 10.0, dy: 0.0))
+                }
+                if let bodyCourant = wagon.physicsBody {
+                    bodyCourant.applyImpulse(CGVector(dx: -10.0, dy: 0.0))
+                }
+            }
+            previousX = wagon.position.x
+            previousWagon = wagon
+        }
     }
 }
 
