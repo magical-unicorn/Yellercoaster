@@ -62,6 +62,7 @@ class GameScene: SKScene {
     }
     
     func buildGroundIfNeeded() {
+
         let world = self.childNodeWithName("world")!
         if let ground = world.childNodeWithName("ground") {
             if (self.groundBuilt - self.avancement - 1100.0 <= 0.0) {
@@ -82,6 +83,7 @@ class GameScene: SKScene {
                 body.dynamic = false
                 shape.physicsBody = body
                 ground.addChild(shape)
+				
                 self.groundItems.append(shape)
                 self.groundBuilt += Double(patternWidth)
                 if (self.groundItems.count > 8) {
@@ -175,7 +177,7 @@ class GameScene: SKScene {
 
 			wagon.physicsBody?.applyForce(force)
 		} else {
-			println("maxvelocity")
+			//println("maxvelocity")
 		}
         // ground.position = CGPoint(x: ground.position.x - xDiff, y: ground.position.y)
         self.avancement = Double(wagon.position.x)
