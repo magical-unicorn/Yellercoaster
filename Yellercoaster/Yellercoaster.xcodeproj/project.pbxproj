@@ -132,6 +132,8 @@
 				B52CFF2E1A72E006007C9E3F /* GameScene.swift */,
 				2119E8E01A74712300D1197A /* CreditScene.sks */,
 				2119E8E21A74714400D1197A /* CreditScene.swift */,
+				3242BA811A74FE8800177EA9 /* ScoreScene.sks */,
+				3242BA831A74FEA200177EA9 /* ScoreScene.swift */,
 				B52CFF521A730931007C9E3F /* SplashScene.sks */,
 				B52CFF541A73094C007C9E3F /* SplashScene.swift */,
 				B52CFF301A72E006007C9E3F /* GameViewController.swift */,
@@ -296,6 +298,7 @@
 				3273740E1A73B86A0002636D /* UIBezierPath+Rob_forEach.m in Sources */,
 				B52CFF2B1A72E006007C9E3F /* AppDelegate.swift in Sources */,
 				2119E8E31A74714400D1197A /* CreditScene.swift in Sources */,
+				3242BA841A74FEA200177EA9 /* ScoreScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
